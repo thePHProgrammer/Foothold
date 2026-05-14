@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Foothold — Design Tokens</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="hifi.css" />
+<link rel="stylesheet" href="hifi-screens.css" />
+<style>
+  /* Design-token page-specific */
+  .dt-page { padding: var(--sp-7) 0 var(--sp-8); }
+  .dt-header { margin-bottom: var(--sp-7); }
+  .dt-header h1 { font-size: 44px; font-weight: 800; letter-spacing: -0.02em; margin: 0; }
+  .dt-header .sub { color: var(--ink-soft); font-size: 16px; margin-top: 8px; max-width: 640px; }
+  .dt-meta { display: flex; gap: 12px; margin-top: 14px; flex-wrap: wrap; }
+
+  .dt-section { margin-bottom: var(--sp-7); }
+  .dt-section-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    margin-bottom: var(--sp-5);
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 14px;
+    flex-wrap: wrap; gap: 12px;
+  }
+  .dt-section-head h2 {
+    font-size: 28px; font-weight: 800; letter-spacing: -0.015em; margin: 0;
+  }
+  .dt-section-head .nm { font-family: var(--font-mono); font-size: 12px; color: var(--ink-faint); }
+
+  /* Swatch grid */
+  .dt-swatches {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 12px;
+  }
+  .dt-swatch {
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    overflow: hidden;
+    background: var(--surface);
+  }
+  .dt-swatch .chip {
+    height: 96px;
+    display: flex; align-items: flex-end; justify-content: space-between;
+    padding: 10px 12px;
+    color: rgba(255,255,255,0.95);
+    font-family: var(--font-mono); font-size: 11px;
+  }
+  .dt-swatch .chip.light { color: var(--ink); }
+  .dt-swatch .body { padding: 10px 12px; font-size: 12px; }
+  .dt-swatch .body b { font-size: 13px; font-weight: 700; display: block; }
+  .dt-swatch .body .hex {
+    font-family: var(--font-mono); color: var(--ink-soft);
+    margin-top: 2px;
+  }
+  .dt-swatch .body .var {
+    font-family: var(--font-mono); color: var(--ink-faint);
+    font-size: 11px; margin-top: 2px;
+  }
+
+  /* Type scale */
+  .dt-type {
+    display: flex; flex-direction: column;
+  }
+  .dt-type-row {
+    display: grid;
+    grid-template-columns: 160px 1fr 200px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--line);
+    align-items: baseline;
+    gap: 20px;
+  }
+  .dt-type-row:last-child { border-bottom: 0; }
+  .dt-type-row .nm {
+    font-family: var(--font-mono); font-size: 12px;
+    color: var(--ink-soft);
+  }
+  .dt-type-row .spec {
+    font-family: var(--font-mono); font-size: 11px;
+    color: var(--ink-faint); text-align: right;
+  }
+  @media (max-width: 720px) {
+    .dt-type-row { grid-template-columns: 1fr; gap: 6px; }
+    .dt-type-row .spec { text-align: left; }
+  }
+
+  /* Spacing */
+  .dt-spacing { display: flex; flex-direction: column; gap: 8px; }
+  .dt-sp-row {
+    display: grid;
+    grid-template-columns: 90px 140px 1fr;
+    align-items: center;
+    gap: 16px;
+    padding: 8px 0;
+  }
+  .dt-sp-row .label { font-family: var(--font-mono); font-size: 12px; }
+  .dt-sp-row .val { font-family: var(--font-mono); font-size: 12px; color: var(--ink-soft); }
+  .dt-sp-row .bar {
+    height: 24px; background: var(--brand-tint);
+    border-left: 2px solid var(--brand);
+    border-radius: 0 var(--r-xs) var(--r-xs) 0;
+  }
+
+  /* Radius scale */
+  .dt-radii { display: flex; gap: 14px; flex-wrap: wrap; }
+  .dt-radius-card {
+    width: 130px;
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+  }
+  .dt-radius-card .box {
+    width: 96px; height: 64px;
+    background: var(--brand-tint);
+    border: 1.5px solid var(--brand);
+  }
+  .dt-radius-card .nm { font-family: var(--font-mono); font-size: 12px; }
+  .dt-radius-card .val { font-family: var(--font-mono); font-size: 11px; color: var(--ink-faint); }
+
+  /* Shadow scale */
+  .dt-shadows {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 18px;
+  }
+  .dt-shadow-card {
+    display: flex; flex-direction: column; align-items: center;
+    padding: 28px 14px 14px;
+    background: var(--bg-2);
+    border-radius: var(--r-md);
+  }
+  .dt-shadow-card .box {
+    width: 100%; height: 70px;
+    background: var(--surface);
+    border-radius: var(--r-md);
+    margin-bottom: 12px;
+  }
+  .dt-shadow-card .nm { font-family: var(--font-mono); font-size: 12px; }
+  .dt-shadow-card .val { font-family: var(--font-mono); font-size: 11px; color: var(--ink-faint); text-align: center; margin-top: 2px; }
+
+  /* Code block */
+  .dt-code {
+    background: var(--ink); color: var(--bg);
+    border-radius: var(--r-md);
+    padding: 18px 20px;
+    font-family: var(--font-mono); font-size: 12px;
+    line-height: 1.7;
+    overflow-x: auto;
+  }
+  .dt-code .key { color: #F0B232; }
+  .dt-code .val { color: #E89373; }
+  .dt-code .comment { color: rgba(255,255,255,0.45); font-style: italic; }
+
+  /* Two-col layout for code + visual */
+  .dt-code-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: var(--sp-5);
+    align-items: start;
+  }
+  @media (max-width: 860px) { .dt-code-grid { grid-template-columns: 1fr; } }
+
+  /* Component preview block */
+  .dt-comp {
+    padding: var(--sp-5);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    background: var(--surface);
+    display: flex; flex-direction: column; gap: 16px;
+  }
+  .dt-comp h3 {
+    margin: 0; font-size: 14px; font-weight: 700;
+  }
+
+  /* Side note */
+  .dt-note {
+    padding: 12px 16px;
+    background: var(--brand-tint);
+    color: var(--brand-ink);
+    border-radius: var(--r-sm);
+    border-left: 3px solid var(--brand);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .dt-note b { font-weight: 700; }
+
+  .dt-toc {
+    position: sticky; top: 84px;
+    align-self: start;
+    font-size: 13px;
+  }
+  .dt-toc a {
+    display: block;
+    padding: 6px 10px;
+    color: var(--ink-soft);
+    text-decoration: none;
+    border-radius: var(--r-sm);
+  }
+  .dt-toc a:hover { background: var(--bg-2); color: var(--ink); }
+  .dt-toc .group {
+    font-size: 11px; font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-faint);
+    padding: 12px 10px 4px;
+  }
+
+  .dt-layout {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: var(--sp-6);
+  }
+  @media (max-width: 860px) {
+    .dt-layout { grid-template-columns: 1fr; }
+    .dt-toc { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hf-topbar">
+  <div class="hf-container hf-topbar-inner">
+    <div class="hf-row" style="gap:32px">
+      <a class="hf-brand" href="Home — Hi-fi.html">
+        <span class="hf-brand-mark"><span>F</span></span>
+        Foothold
+      </a>
+      <nav class="hf-nav">
+        <a href="Home — Hi-fi.html">Home</a>
+        <a href="Lesson — Hi-fi.html">Learn</a>
+        <a href="Practice — Hi-fi.html">Practice</a>
+        <a href="Glossary — Hi-fi.html">Glossary</a>
+        <a href="Progress — Hi-fi.html">Progress</a>
+      </nav>
+    </div>
+    <div class="hf-topbar-actions">
+      <span class="hf-pill brand">Design tokens</span>
+    </div>
+  </div>
+</header>
+
+<main class="hf-container dt-page" data-screen-label="Design tokens">
+
+  <!-- Header -->
+  <div class="dt-header">
+    <div class="hf-eyebrow">Foothold design system</div>
+    <h1>Design tokens</h1>
+    <p class="sub">The single source of truth for color, type, spacing, and component values. Engineers can lift these straight into Tailwind, CSS variables, or a token JSON. Updated v1.0 · May 2026.</p>
+    <div class="dt-meta">
+      <span class="hf-pill brand">Brand · Terracotta</span>
+      <span class="hf-pill outline">Type · Manrope</span>
+      <span class="hf-pill outline">7 screens · 1 system</span>
+    </div>
+  </div>
+
+  <div class="dt-layout">
+
+    <!-- Table of contents -->
+    <aside class="dt-toc">
+      <div class="group">Foundations</div>
+      <a href="#colors">Colors</a>
+      <a href="#typography">Typography</a>
+      <a href="#spacing">Spacing</a>
+      <a href="#radii">Radius</a>
+      <a href="#shadows">Shadows</a>
+      <div class="group">Components</div>
+      <a href="#buttons">Buttons</a>
+      <a href="#pills">Pills &amp; chips</a>
+      <a href="#inputs">Inputs</a>
+      <a href="#cards">Cards</a>
+      <div class="group">Code</div>
+      <a href="#code-vars">CSS variables</a>
+      <a href="#code-json">JSON tokens</a>
+      <a href="#code-tailwind">Tailwind config</a>
+    </aside>
+
+    <div>
+
+      <!-- ───────────────────────────── COLORS ───────────────────────────── -->
+      <section class="dt-section" id="colors">
+        <div class="dt-section-head">
+          <h2>Colors</h2>
+          <span class="nm">--brand · --ink · --bg · semantic</span>
+        </div>
+
+        <div class="dt-note" style="margin-bottom:18px">
+          <b>One bold accent, lots of space.</b> Terracotta carries every CTA, highlight, and focus state.
+          Everything else is a warm ink-on-paper neutral. Semantic colors (success/danger) appear only inside
+          financial UI — never as decoration.
+        </div>
+
+        <h3 class="hf-h3" style="margin-bottom:12px">Brand</h3>
+        <div class="dt-swatches" style="margin-bottom:28px">
+          <div class="dt-swatch">
+            <div class="chip" style="background:#D97757"><span>brand</span><span>#D97757</span></div>
+            <div class="body"><b>Terracotta</b><div class="hex">#D97757 · rgb(217, 119, 87)</div><div class="var">--brand</div></div>
+          </div>
+          <div class="dt-swatch">
+            <div class="chip" style="background:#C25C3B"><span>strong</span><span>#C25C3B</span></div>
+            <div class="body"><b>Terracotta strong</b><div class="hex">#C25C3B</div><div class="var">--brand-strong · hover/active</div></div>
+          </div>
+          <div class="dt-swatch">
+            <div class="chip light" style="background:#FBE9DF"><span>tint</span><span>#FBE9DF</span></div>
+            <div class="body"><b>Terracotta tint</b><div class="hex">#FBE9DF</div><div class="var">--brand-tint · backgrounds</div></div>
+          </div>
+          <div class="dt-swatch">
+            <div class="chip" style="background:#5A2814"><span>ink</span><span>#5A2814</span></div>
+            <div class="body"><b>Terracotta ink</b><div class="hex">#5A2814</div><div class="var">--brand-ink · text on tint</div></div>
+          </div>
+        </div>
+
+        <h3 class="hf-h3" style="margin-bottom:12px">Neutrals (paper &amp; ink)</h3>
+        <div class="dt-swatches" style="margin-bottom:28px">
+          <div class="dt-swatch">
+            <div class="chip light" style="background:#FBF9F6;border-bottom:1px solid var(--line)"><span>bg</span><span>#FBF9F6</span></div>
+            <div class="body"><b>Paper</b><div class="hex">#FBF9F6</div><div class="var">--bg · page background</div></div>
+          </div>
+          <div class="dt-swatch">
+            <div class="chip light" style="background:#F4EFE8"><span>bg-2</span><span>#F4EFE8</span></div>
+            <div class="body"><b>Paper alt</b><div class="hex">#F4EFE8</div><div class="var">--bg-2 · subtle fill</div></div>
+          </div>
+          <div class="dt-swatch">
+            <div class="chip light" style="background:#FFFFFF;border-bottom:1px solid var(--line)"><span>surface</span><span>#FFFFFF</span></div>
+            <div class="body"><b>Surface</b><div class="hex">#FFFFFF</div><div class="var">--surface · cards</div></div>
+          </div>
+          <div class="dt-swatch">
+            <div class="chip" style="background:#1B1817"><span>ink</span><span>#1B1817</span></div>
+            <div class="body"><b>Ink</b><div class="hex">#1B1817</div><div class="var">--ink · primary text</div></div>
+          </div>
+          <div class="dt-swatch">
+            <div class="chip" style="background:#6B6660"><span>ink-soft</span><span>#6B6660</span></div>
+            <div class="body"><b>Ink soft</b><div class="hex">#6B6660</div><div class="var">--ink-soft · secondary text</div></div>
+          </div>
+          <div class="dt-swatch">
+            <div class="chip" style="background:#A39C92"><span>ink-faint</span><span>#A39C92</span></div>
+            <div class="body"><b>Ink faint</b><div class="hex">#A39C92</div><div class="var">--ink-faint · captions, meta</div></div>
+          </div>
+          <div class="dt-swatch">
+            <div class="chip light" style="background:#EBE6DD;border:1px solid var(--line-2)"><span>line</span><span>#EBE6DD</span></div>
+            <div class="body"><b>Line</b><div class="hex">#EBE6DD</div><div class="var">--line · hairline borders</div></div>
+          </div>
+          <div class="dt-swatch">
+            <div class="chip light" style="background:#DCD5C7;border:1px solid var(--line-2)"><span>line-2</span><span>#DCD5C7</span></div>
+            <div class="body"><b>Line strong</b><div class="hex">#DCD5C7</div><div class="var">--line-2 · button borders</div></div>
+          </div>
+        </div>
+
+        <h3 class="hf-h3" style="margin-bottom:12px">Semantic</h3>
+        <div class="dt-swatches">
+          <div class="dt-swatch">
+            <div class="chip" style="background:#2F8F5A"><span>success</span><span>#2F8F5A</span></div>
+            <div class="body"><b>Success</b><div class="hex">#2F8F5A</div><div class="var">--success · gains, buy</div></div>
+          </div>
+          <div class="dt-swatch">
+            <div class="chip light" style="background:#E3F1E7"><span>success tint</span><span>#E3F1E7</span></div>
+            <div class="body"><b>Success tint</b><div class="hex">#E3F1E7</div><div class="var">--success-tint</div></div>
+          </div>
+          <div class="dt-swatch">
+            <div class="chip" style="background:#C75348"><span>danger</span><span>#C75348</span></div>
+            <div class="body"><b>Danger</b><div class="hex">#C75348</div><div class="var">--danger · losses, sell</div></div>
+          </div>
+          <div class="dt-swatch">
+            <div class="chip light" style="background:#F6E1DC"><span>danger tint</span><span>#F6E1DC</span></div>
+            <div class="body"><b>Danger tint</b><div class="hex">#F6E1DC</div><div class="var">--danger-tint</div></div>
+          </div>
+          <div class="dt-swatch">
+            <div class="chip" style="background:#C99514"><span>warn</span><span>#C99514</span></div>
+            <div class="body"><b>Warn</b><div class="hex">#C99514</div><div class="var">--warn · alerts, drafts</div></div>
+          </div>
+          <div class="dt-swatch">
+            <div class="chip light" style="background:#FBEFC8"><span>warn tint</span><span>#FBEFC8</span></div>
+            <div class="body"><b>Warn tint</b><div class="hex">#FBEFC8</div><div class="var">--warn-tint</div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ───────────────────────────── TYPOGRAPHY ───────────────────────────── -->
+      <section class="dt-section" id="typography">
+        <div class="dt-section-head">
+          <h2>Typography</h2>
+          <span class="nm">Manrope · 400 / 500 / 600 / 700 / 800</span>
+        </div>
+        <div class="dt-note" style="margin-bottom:18px">
+          <b>One family, varied weights.</b> Manrope's geometric warmth reads as friendly fintech.
+          Numbers use tabular-nums everywhere they appear in tables, charts, or money. JetBrains Mono shows up only in metadata, codes, and time-on-page badges.
+        </div>
+
+        <div class="dt-type">
+          <div class="dt-type-row">
+            <div class="nm">h1 / display</div>
+            <div style="font-size:44px;font-weight:800;letter-spacing:-0.02em;line-height:1.05">Learn to trade.</div>
+            <div class="spec">44 / 800 / -2%</div>
+          </div>
+          <div class="dt-type-row">
+            <div class="nm">h1 / page</div>
+            <div style="font-size:38px;font-weight:800;letter-spacing:-0.02em;line-height:1.1">Buying your first Bitcoin</div>
+            <div class="spec">38 / 800 / -2%</div>
+          </div>
+          <div class="dt-type-row">
+            <div class="nm">h2</div>
+            <div style="font-size:28px;font-weight:800;letter-spacing:-0.02em;line-height:1.15">What "buying" actually means</div>
+            <div class="spec">28 / 800 / -2%</div>
+          </div>
+          <div class="dt-type-row">
+            <div class="nm">h3</div>
+            <div style="font-size:20px;font-weight:700;letter-spacing:-0.01em;line-height:1.25">Key idea</div>
+            <div class="spec">20 / 700 / -1%</div>
+          </div>
+          <div class="dt-type-row">
+            <div class="nm">h4 / card title</div>
+            <div style="font-size:16px;font-weight:700;letter-spacing:-0.005em">Reading a candlestick chart</div>
+            <div class="spec">16 / 700</div>
+          </div>
+          <div class="dt-type-row">
+            <div class="nm">body</div>
+            <div style="font-size:16px;font-weight:400;line-height:1.65">When you buy a coin, you're trading some of your money for a digital asset. The amount depends on the current price.</div>
+            <div class="spec">16 / 400 / 1.65</div>
+          </div>
+          <div class="dt-type-row">
+            <div class="nm">body-sm</div>
+            <div style="font-size:14px;font-weight:400;color:var(--ink-soft);line-height:1.55">No real money is spent — this is practice only.</div>
+            <div class="spec">14 / 400 / 1.55</div>
+          </div>
+          <div class="dt-type-row">
+            <div class="nm">label</div>
+            <div style="font-size:12px;font-weight:600;color:var(--ink-soft)">Amount to spend</div>
+            <div class="spec">12 / 600</div>
+          </div>
+          <div class="dt-type-row">
+            <div class="nm">eyebrow</div>
+            <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink-soft)">CRYPTO BASICS · LESSON 5 OF 12</div>
+            <div class="spec">11 / 700 / +8% tracking</div>
+          </div>
+          <div class="dt-type-row">
+            <div class="nm">mono / numeric</div>
+            <div style="font-family:var(--font-mono);font-size:14px;font-weight:600">$ 64,210.42  ·  +1.2%</div>
+            <div class="spec">JetBrains Mono · tnum</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ───────────────────────────── SPACING ───────────────────────────── -->
+      <section class="dt-section" id="spacing">
+        <div class="dt-section-head">
+          <h2>Spacing</h2>
+          <span class="nm">--sp-1 → --sp-8 · base 4px</span>
+        </div>
+        <div class="dt-spacing">
+          <div class="dt-sp-row"><div class="label">--sp-1</div><div class="val">4 px</div><div class="bar" style="width:4px"></div></div>
+          <div class="dt-sp-row"><div class="label">--sp-2</div><div class="val">8 px</div><div class="bar" style="width:8px"></div></div>
+          <div class="dt-sp-row"><div class="label">--sp-3</div><div class="val">12 px</div><div class="bar" style="width:12px"></div></div>
+          <div class="dt-sp-row"><div class="label">--sp-4</div><div class="val">16 px</div><div class="bar" style="width:16px"></div></div>
+          <div class="dt-sp-row"><div class="label">--sp-5</div><div class="val">24 px</div><div class="bar" style="width:24px"></div></div>
+          <div class="dt-sp-row"><div class="label">--sp-6</div><div class="val">32 px</div><div class="bar" style="width:32px"></div></div>
+          <div class="dt-sp-row"><div class="label">--sp-7</div><div class="val">48 px</div><div class="bar" style="width:48px"></div></div>
+          <div class="dt-sp-row"><div class="label">--sp-8</div><div class="val">64 px</div><div class="bar" style="width:64px"></div></div>
+        </div>
+      </section>
+
+      <!-- ───────────────────────────── RADII ───────────────────────────── -->
+      <section class="dt-section" id="radii">
+        <div class="dt-section-head">
+          <h2>Radius</h2>
+          <span class="nm">--r-xs → --r-pill</span>
+        </div>
+        <div class="dt-radii">
+          <div class="dt-radius-card"><div class="box" style="border-radius:6px"></div><div class="nm">--r-xs</div><div class="val">6 px</div></div>
+          <div class="dt-radius-card"><div class="box" style="border-radius:10px"></div><div class="nm">--r-sm</div><div class="val">10 px</div></div>
+          <div class="dt-radius-card"><div class="box" style="border-radius:14px"></div><div class="nm">--r-md</div><div class="val">14 px</div></div>
+          <div class="dt-radius-card"><div class="box" style="border-radius:20px"></div><div class="nm">--r-lg</div><div class="val">20 px</div></div>
+          <div class="dt-radius-card"><div class="box" style="border-radius:999px"></div><div class="nm">--r-pill</div><div class="val">999 px</div></div>
+        </div>
+      </section>
+
+      <!-- ───────────────────────────── SHADOWS ───────────────────────────── -->
+      <section class="dt-section" id="shadows">
+        <div class="dt-section-head">
+          <h2>Shadows</h2>
+          <span class="nm">--shadow-1 → --shadow-3</span>
+        </div>
+        <div class="dt-shadows">
+          <div class="dt-shadow-card">
+            <div class="box" style="box-shadow: 0 1px 2px rgba(27,24,23,0.04), 0 1px 1px rgba(27,24,23,0.03);"></div>
+            <div class="nm">--shadow-1</div>
+            <div class="val">cards · inputs<br/>0 1 2 rgba(27,24,23,.04)</div>
+          </div>
+          <div class="dt-shadow-card">
+            <div class="box" style="box-shadow: 0 6px 18px rgba(27,24,23,0.06), 0 2px 4px rgba(27,24,23,0.04);"></div>
+            <div class="nm">--shadow-2</div>
+            <div class="val">hover · auth cards<br/>0 6 18 rgba(27,24,23,.06)</div>
+          </div>
+          <div class="dt-shadow-card">
+            <div class="box" style="box-shadow: 0 20px 48px rgba(27,24,23,0.10), 0 8px 16px rgba(27,24,23,0.05);"></div>
+            <div class="nm">--shadow-3</div>
+            <div class="val">modals · floating<br/>0 20 48 rgba(27,24,23,.10)</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ───────────────────────────── BUTTONS ───────────────────────────── -->
+      <section class="dt-section" id="buttons">
+        <div class="dt-section-head">
+          <h2>Buttons</h2>
+          <span class="nm">.hf-btn · .primary · .ghost · .success · .danger</span>
+        </div>
+
+        <div class="dt-comp">
+          <h3>Variants</h3>
+          <div class="hf-row" style="gap:10px;flex-wrap:wrap">
+            <button class="hf-btn primary">Primary action</button>
+            <button class="hf-btn">Secondary</button>
+            <button class="hf-btn ghost">Ghost</button>
+            <button class="hf-btn success">Buy</button>
+            <button class="hf-btn danger">Sell</button>
+          </div>
+          <h3>Sizes</h3>
+          <div class="hf-row" style="gap:10px;flex-wrap:wrap;align-items:center">
+            <button class="hf-btn sm">Small · 32</button>
+            <button class="hf-btn">Default · 40</button>
+            <button class="hf-btn lg">Large · 48</button>
+            <button class="hf-btn xl">Extra large · 56</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ───────────────────────────── PILLS ───────────────────────────── -->
+      <section class="dt-section" id="pills">
+        <div class="dt-section-head">
+          <h2>Pills &amp; chips</h2>
+          <span class="nm">.hf-pill · .hf-chip-btn</span>
+        </div>
+        <div class="dt-comp">
+          <h3>Pills (informational)</h3>
+          <div class="hf-row" style="gap:8px;flex-wrap:wrap">
+            <span class="hf-pill">Default</span>
+            <span class="hf-pill outline">Outline</span>
+            <span class="hf-pill brand">🔥 Streak</span>
+            <span class="hf-pill success">+1.2%</span>
+            <span class="hf-pill danger">−0.5%</span>
+            <span class="hf-pill warn">Beta</span>
+            <span class="hf-pill solid-ink">Practice mode</span>
+          </div>
+          <h3>Chip buttons (interactive filter)</h3>
+          <div class="hf-row" style="gap:8px;flex-wrap:wrap">
+            <button class="hf-chip-btn active">Selected</button>
+            <button class="hf-chip-btn">Unselected</button>
+            <button class="hf-chip-btn">🪙 Crypto</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ───────────────────────────── INPUTS ───────────────────────────── -->
+      <section class="dt-section" id="inputs">
+        <div class="dt-section-head">
+          <h2>Inputs</h2>
+          <span class="nm">.hf-input · .hf-label · .hf-amount-input</span>
+        </div>
+        <div class="dt-comp">
+          <div style="max-width:380px">
+            <label class="hf-label">Email address</label>
+            <div class="hf-input">
+              <input type="email" placeholder="you@email.com" />
+            </div>
+          </div>
+          <div style="max-width:380px">
+            <label class="hf-label">Amount to spend</label>
+            <div class="hf-amount-input focus">
+              <span>$ 100.00</span>
+              <span class="currency">USD</span>
+            </div>
+          </div>
+          <div style="max-width:380px">
+            <label class="hf-label">Daily time goal</label>
+            <div class="hf-slider" style="--p: 40%">
+              <input type="range" min="5" max="30" value="12" />
+            </div>
+          </div>
+          <div class="hf-toggle-row" style="max-width:380px">
+            <span>Voiceover (read aloud)</span>
+            <button class="hf-toggle on" aria-label="Toggle"></button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ───────────────────────────── CARDS ───────────────────────────── -->
+      <section class="dt-section" id="cards">
+        <div class="dt-section-head">
+          <h2>Cards &amp; surfaces</h2>
+          <span class="nm">.hf-card · .hf-key · .hf-fin · .hf-stat-card</span>
+        </div>
+        <div class="dt-comp">
+          <h3>Key idea</h3>
+          <div class="hf-key">
+            <div class="ico brand">!</div>
+            <div>
+              <b>Key idea</b>
+              <p>Owning a stock = owning a small piece of a company.</p>
+            </div>
+          </div>
+          <h3>Fin says</h3>
+          <div class="hf-fin">
+            <div class="hf-fin-avatar">
+              <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+                <circle cx="11" cy="13" r="2" fill="#fff"/>
+                <circle cx="21" cy="13" r="2" fill="#fff"/>
+                <path d="M10 20 Q16 24 22 20" stroke="#fff" stroke-width="2" stroke-linecap="round" fill="none"/>
+              </svg>
+            </div>
+            <div class="hf-fin-body">
+              <div class="who">FIN SAYS</div>
+              <p>Most beginners start with $50–$100 of play money — enough to feel the moves without overthinking.</p>
+            </div>
+          </div>
+          <h3>Stat card</h3>
+          <div style="max-width:240px">
+            <div class="hf-stat-card brand">
+              <div class="top"><span>Day streak</span><span>🔥</span></div>
+              <div class="big">4</div>
+              <div class="delta">days · longest 12</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ───────────────────────────── CODE ───────────────────────────── -->
+      <section class="dt-section" id="code-vars">
+        <div class="dt-section-head">
+          <h2>CSS variables</h2>
+          <span class="nm">drop in :root</span>
+        </div>
+<pre class="dt-code">:root {
+  <span class="comment">/* Palette */</span>
+  <span class="key">--brand</span>:        <span class="val">#D97757</span>;  <span class="comment">/* terracotta */</span>
+  <span class="key">--brand-strong</span>: <span class="val">#C25C3B</span>;
+  <span class="key">--brand-tint</span>:   <span class="val">#FBE9DF</span>;
+  <span class="key">--brand-ink</span>:    <span class="val">#5A2814</span>;
+
+  <span class="key">--bg</span>:           <span class="val">#FBF9F6</span>;
+  <span class="key">--bg-2</span>:         <span class="val">#F4EFE8</span>;
+  <span class="key">--surface</span>:      <span class="val">#FFFFFF</span>;
+
+  <span class="key">--ink</span>:          <span class="val">#1B1817</span>;
+  <span class="key">--ink-soft</span>:     <span class="val">#6B6660</span>;
+  <span class="key">--ink-faint</span>:    <span class="val">#A39C92</span>;
+  <span class="key">--line</span>:         <span class="val">#EBE6DD</span>;
+  <span class="key">--line-2</span>:       <span class="val">#DCD5C7</span>;
+
+  <span class="key">--success</span>:      <span class="val">#2F8F5A</span>;
+  <span class="key">--danger</span>:       <span class="val">#C75348</span>;
+  <span class="key">--warn</span>:         <span class="val">#C99514</span>;
+
+  <span class="comment">/* Radii */</span>
+  <span class="key">--r-xs</span>:  <span class="val">6px</span>;
+  <span class="key">--r-sm</span>:  <span class="val">10px</span>;
+  <span class="key">--r-md</span>:  <span class="val">14px</span>;
+  <span class="key">--r-lg</span>:  <span class="val">20px</span>;
+  <span class="key">--r-pill</span>: <span class="val">999px</span>;
+
+  <span class="comment">/* Shadows */</span>
+  <span class="key">--shadow-1</span>: <span class="val">0 1px 2px rgba(27,24,23,.04), 0 1px 1px rgba(27,24,23,.03)</span>;
+  <span class="key">--shadow-2</span>: <span class="val">0 6px 18px rgba(27,24,23,.06), 0 2px 4px rgba(27,24,23,.04)</span>;
+  <span class="key">--shadow-3</span>: <span class="val">0 20px 48px rgba(27,24,23,.10), 0 8px 16px rgba(27,24,23,.05)</span>;
+
+  <span class="comment">/* Type */</span>
+  <span class="key">--font</span>:      <span class="val">'Manrope', system-ui, sans-serif</span>;
+  <span class="key">--font-mono</span>: <span class="val">'JetBrains Mono', ui-monospace, monospace</span>;
+
+  <span class="comment">/* Spacing — base 4px */</span>
+  <span class="key">--sp-1</span>: <span class="val">4px</span>;
+  <span class="key">--sp-2</span>: <span class="val">8px</span>;
+  <span class="key">--sp-3</span>: <span class="val">12px</span>;
+  <span class="key">--sp-4</span>: <span class="val">16px</span>;
+  <span class="key">--sp-5</span>: <span class="val">24px</span>;
+  <span class="key">--sp-6</span>: <span class="val">32px</span>;
+  <span class="key">--sp-7</span>: <span class="val">48px</span>;
+  <span class="key">--sp-8</span>: <span class="val">64px</span>;
+}</pre>
+      </section>
+
+      <section class="dt-section" id="code-json">
+        <div class="dt-section-head">
+          <h2>JSON tokens (Style Dictionary)</h2>
+          <span class="nm">design-tokens/foothold.tokens.json</span>
+        </div>
+<pre class="dt-code">{
+  <span class="key">"color"</span>: {
+    <span class="key">"brand"</span>:  { <span class="key">"$value"</span>: <span class="val">"#D97757"</span> },
+    <span class="key">"ink"</span>:    { <span class="key">"$value"</span>: <span class="val">"#1B1817"</span> },
+    <span class="key">"bg"</span>:     { <span class="key">"$value"</span>: <span class="val">"#FBF9F6"</span> },
+    <span class="key">"success"</span>: { <span class="key">"$value"</span>: <span class="val">"#2F8F5A"</span> },
+    <span class="key">"danger"</span>:  { <span class="key">"$value"</span>: <span class="val">"#C75348"</span> }
+  },
+  <span class="key">"font"</span>: {
+    <span class="key">"family"</span>: { <span class="key">"$value"</span>: <span class="val">"Manrope"</span> },
+    <span class="key">"weights"</span>: { <span class="key">"$value"</span>: <span class="val">[400, 500, 600, 700, 800]</span> }
+  },
+  <span class="key">"size"</span>: {
+    <span class="key">"display"</span>: { <span class="key">"$value"</span>: <span class="val">"44px"</span> },
+    <span class="key">"h1"</span>:      { <span class="key">"$value"</span>: <span class="val">"38px"</span> },
+    <span class="key">"h2"</span>:      { <span class="key">"$value"</span>: <span class="val">"28px"</span> },
+    <span class="key">"body"</span>:    { <span class="key">"$value"</span>: <span class="val">"16px"</span> },
+    <span class="key">"label"</span>:   { <span class="key">"$value"</span>: <span class="val">"12px"</span> }
+  },
+  <span class="key">"spacing"</span>: {
+    <span class="key">"1"</span>: <span class="val">"4px"</span>,
+    <span class="key">"2"</span>: <span class="val">"8px"</span>,
+    <span class="key">"3"</span>: <span class="val">"12px"</span>,
+    <span class="key">"4"</span>: <span class="val">"16px"</span>,
+    <span class="key">"5"</span>: <span class="val">"24px"</span>,
+    <span class="key">"6"</span>: <span class="val">"32px"</span>,
+    <span class="key">"7"</span>: <span class="val">"48px"</span>,
+    <span class="key">"8"</span>: <span class="val">"64px"</span>
+  },
+  <span class="key">"radius"</span>: {
+    <span class="key">"xs"</span>: <span class="val">"6px"</span>,  <span class="key">"sm"</span>: <span class="val">"10px"</span>,
+    <span class="key">"md"</span>: <span class="val">"14px"</span>, <span class="key">"lg"</span>: <span class="val">"20px"</span>,
+    <span class="key">"pill"</span>: <span class="val">"999px"</span>
+  }
+}</pre>
+      </section>
+
+      <section class="dt-section" id="code-tailwind" style="margin-bottom:0">
+        <div class="dt-section-head">
+          <h2>Tailwind config</h2>
+          <span class="nm">tailwind.config.js</span>
+        </div>
+<pre class="dt-code">module.exports = {
+  theme: {
+    extend: {
+      <span class="key">colors</span>: {
+        brand:   { DEFAULT: <span class="val">'#D97757'</span>, strong: <span class="val">'#C25C3B'</span>, tint: <span class="val">'#FBE9DF'</span> },
+        ink:     { DEFAULT: <span class="val">'#1B1817'</span>, soft: <span class="val">'#6B6660'</span>, faint: <span class="val">'#A39C92'</span> },
+        paper:   <span class="val">'#FBF9F6'</span>,
+        line:    <span class="val">'#EBE6DD'</span>,
+        success: <span class="val">'#2F8F5A'</span>,
+        danger:  <span class="val">'#C75348'</span>,
+        warn:    <span class="val">'#C99514'</span>
+      },
+      <span class="key">fontFamily</span>: {
+        sans: [<span class="val">'Manrope'</span>, <span class="val">'system-ui'</span>, <span class="val">'sans-serif'</span>],
+        mono: [<span class="val">'JetBrains Mono'</span>, <span class="val">'monospace'</span>]
+      },
+      <span class="key">fontSize</span>: {
+        display: [<span class="val">'44px'</span>, { lineHeight: <span class="val">'1.05'</span>, letterSpacing: <span class="val">'-0.02em'</span>, fontWeight: <span class="val">'800'</span> }],
+        h1:      [<span class="val">'38px'</span>, { lineHeight: <span class="val">'1.1'</span>,  letterSpacing: <span class="val">'-0.02em'</span>, fontWeight: <span class="val">'800'</span> }],
+        h2:      [<span class="val">'28px'</span>, { lineHeight: <span class="val">'1.15'</span>, letterSpacing: <span class="val">'-0.02em'</span>, fontWeight: <span class="val">'800'</span> }],
+        h3:      [<span class="val">'20px'</span>, { lineHeight: <span class="val">'1.25'</span>, letterSpacing: <span class="val">'-0.01em'</span>, fontWeight: <span class="val">'700'</span> }],
+        body:    [<span class="val">'16px'</span>, { lineHeight: <span class="val">'1.65'</span> }],
+        label:   [<span class="val">'12px'</span>, { lineHeight: <span class="val">'1.3'</span>, fontWeight: <span class="val">'600'</span> }]
+      },
+      <span class="key">borderRadius</span>: {
+        xs: <span class="val">'6px'</span>, sm: <span class="val">'10px'</span>, md: <span class="val">'14px'</span>, lg: <span class="val">'20px'</span>, pill: <span class="val">'999px'</span>
+      },
+      <span class="key">boxShadow</span>: {
+        1: <span class="val">'0 1px 2px rgba(27,24,23,.04), 0 1px 1px rgba(27,24,23,.03)'</span>,
+        2: <span class="val">'0 6px 18px rgba(27,24,23,.06), 0 2px 4px rgba(27,24,23,.04)'</span>,
+        3: <span class="val">'0 20px 48px rgba(27,24,23,.10), 0 8px 16px rgba(27,24,23,.05)'</span>
+      },
+      <span class="key">spacing</span>: { 1: <span class="val">'4px'</span>, 2: <span class="val">'8px'</span>, 3: <span class="val">'12px'</span>, 4: <span class="val">'16px'</span>, 5: <span class="val">'24px'</span>, 6: <span class="val">'32px'</span>, 7: <span class="val">'48px'</span>, 8: <span class="val">'64px'</span> }
+    }
+  }
+}</pre>
+      </section>
+
+    </div>
+  </div>
+
+</main>
+
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Foothold — Set up your plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="hifi.css" />
+<link rel="stylesheet" href="hifi-screens.css" />
+</head>
+<body>
+
+<main class="hf-auth" data-screen-label="Onboarding">
+  <div class="hf-onb">
+    <div class="hf-onb-head">
+      <div>
+        <div class="hf-eyebrow">Welcome to Foothold</div>
+        <h1>Set up your plan</h1>
+      </div>
+      <a href="Home — Hi-fi.html" class="hf-pill outline" style="text-decoration:none">Skip for now</a>
+    </div>
+    <p class="sub">You can change any of this later in Settings.</p>
+
+    <div class="hf-onb-grid">
+
+      <!-- LEFT column -->
+      <div class="hf-stack-lg">
+
+        <div class="hf-field">
+          <label class="hf-label">Markets I'm curious about</label>
+          <div class="hf-chip-row">
+            <button class="hf-chip-btn active">🪙 Crypto</button>
+            <button class="hf-chip-btn">📈 Stocks</button>
+            <button class="hf-chip-btn active">💱 Forex</button>
+          </div>
+          <span class="note">Pick one, two, or all three.</span>
+        </div>
+
+        <div class="hf-field">
+          <label class="hf-label">Experience level</label>
+          <div class="hf-chip-row">
+            <button class="hf-chip-btn active">Total beginner</button>
+            <button class="hf-chip-btn">Some idea</button>
+            <button class="hf-chip-btn">Confident</button>
+          </div>
+        </div>
+
+        <div class="hf-field">
+          <label class="hf-label">How much time per day?</label>
+          <div class="hf-slider" style="--p: 33%">
+            <input type="range" min="5" max="30" value="10" />
+          </div>
+          <div class="hf-slider-labels">
+            <span>5 min</span>
+            <span style="color:var(--ink);font-weight:700;font-family:var(--font);">≈ 10 min / day</span>
+            <span>30 min</span>
+          </div>
+        </div>
+
+        <div class="hf-field">
+          <label class="hf-label">Reading level</label>
+          <div class="hf-chip-row">
+            <button class="hf-chip-btn active">Plain English</button>
+            <button class="hf-chip-btn">Standard finance terms</button>
+          </div>
+          <span class="note">"Plain" replaces jargon with everyday words.</span>
+        </div>
+
+      </div>
+
+      <!-- RIGHT column -->
+      <div class="hf-stack-lg">
+
+        <div class="hf-field">
+          <label class="hf-label">Why are you here?</label>
+          <div class="hf-stack-sm">
+            <label class="hf-option"><span class="dot"></span><span>Just curious</span></label>
+            <label class="hf-option active"><span class="dot"></span><span>Plan for retirement</span></label>
+            <label class="hf-option"><span class="dot"></span><span>Invest a windfall</span></label>
+            <label class="hf-option"><span class="dot"></span><span>Earn side income</span></label>
+            <label class="hf-option"><span class="dot"></span><span>Understand the financial news</span></label>
+          </div>
+        </div>
+
+        <div class="hf-field">
+          <label class="hf-label">Helpful extras</label>
+          <div class="hf-stack-sm">
+            <div class="hf-toggle-row">
+              <span>🔊  Voiceover (read lessons aloud)</span>
+              <button class="hf-toggle on" aria-label="Toggle voiceover"></button>
+            </div>
+            <div class="hf-toggle-row">
+              <span>🤖  Fin, my friendly guide</span>
+              <button class="hf-toggle on" aria-label="Toggle Fin"></button>
+            </div>
+            <div class="hf-toggle-row">
+              <span>A+  Larger text by default</span>
+              <button class="hf-toggle" aria-label="Toggle larger text"></button>
+            </div>
+          </div>
+        </div>
+
+        <a href="Home — Hi-fi.html" class="hf-btn primary xl block" style="text-decoration:none">
+          Build my plan
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+        <div style="text-align:center;font-size:13px;color:var(--ink-soft);">Next: a 3-step journey tailored to you.</div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<div id="tweaks-root"></div>
+
+<script>
+  // Live update slider progress fill
+  document.querySelectorAll('.hf-slider input[type=range]').forEach(input => {
+    const setP = () => {
+      const min = +input.min, max = +input.max, v = +input.value;
+      const pct = ((v - min) / (max - min)) * 100;
+      input.parentElement.style.setProperty('--p', pct + '%');
+    };
+    input.addEventListener('input', setP);
+    setP();
+  });
+  // Toggle interaction
+  document.querySelectorAll('.hf-toggle').forEach(t => t.addEventListener('click', () => t.classList.toggle('on')));
+  // Chip / option interaction (visual only)
+  document.querySelectorAll('.hf-chip-row').forEach(row => {
+    const multiselect = row.querySelectorAll('.hf-chip-btn').length > 2 && row.firstElementChild.textContent.includes('Crypto');
+    row.querySelectorAll('.hf-chip-btn').forEach(b => b.addEventListener('click', () => {
+      if (multiselect) b.classList.toggle('active');
+      else {
+        row.querySelectorAll('.hf-chip-btn').forEach(x => x.classList.remove('active'));
+        b.classList.add('active');
+      }
+    }));
+  });
+  document.querySelectorAll('.hf-option').forEach(o => o.addEventListener('click', () => {
+    o.parentElement.querySelectorAll('.hf-option').forEach(x => x.classList.remove('active'));
+    o.classList.add('active');
+  }));
+</script>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel" src="hifi-tweaks.jsx"></script>
+
+</body>
+</html>

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Foothold — Practice (Simulator)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="hifi.css" />
+<link rel="stylesheet" href="hifi-screens.css" />
+</head>
+<body>
+
+<header class="hf-topbar">
+  <div class="hf-container hf-topbar-inner">
+    <div class="hf-row" style="gap:32px">
+      <a class="hf-brand" href="Home — Hi-fi.html">
+        <span class="hf-brand-mark"><span>F</span></span>
+        Foothold
+      </a>
+      <nav class="hf-nav">
+        <a href="Home — Hi-fi.html">Home</a>
+        <a href="Lesson — Hi-fi.html">Learn</a>
+        <a href="Practice — Hi-fi.html" class="active">Practice</a>
+        <a href="Glossary — Hi-fi.html">Glossary</a>
+        <a href="Progress — Hi-fi.html">Progress</a>
+      </nav>
+    </div>
+    <div class="hf-topbar-actions">
+      <span class="hf-pill brand">🧪 PRACTICE MODE</span>
+      <button class="hf-iconbtn" aria-label="Settings">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 11-4 0v-.09a1.65 1.65 0 00-1-1.51 1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 110-4h.09a1.65 1.65 0 001.51-1 1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 114 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 110 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+      </button>
+      <button class="hf-iconbtn" style="background:var(--brand);color:#fff;border-radius:50%;font-weight:700;font-size:13px;">M</button>
+    </div>
+  </div>
+</header>
+
+<main class="hf-container hf-page" data-screen-label="Practice simulator">
+
+  <div class="hf-sim-header">
+    <div>
+      <div class="hf-eyebrow">Practice trade</div>
+      <h1 class="hf-h2" style="margin-top:2px">Try a trade with play money</h1>
+    </div>
+    <div class="hf-row">
+      <div class="hf-sim-balance">
+        <span style="color:var(--ink-soft);">Play balance:</span>
+        <b>$ 9,812.58</b>
+      </div>
+      <button class="hf-btn sm">↻ Reset</button>
+      <button class="hf-btn sm">📖 Tutorial</button>
+    </div>
+  </div>
+
+  <div class="hf-sim">
+
+    <!-- LEFT: chart + stats -->
+    <div>
+      <div class="hf-sim-chart">
+        <div class="hf-sim-pricerow">
+          <div class="hf-sim-asset">
+            <div class="hf-asset-icon">₿</div>
+            <div>
+              <div style="font-size:15px;font-weight:700;">Bitcoin <span class="hf-faint hf-mono" style="font-size:11px;font-weight:500;">BTC / USD</span></div>
+              <div class="hf-faint" style="font-size:11px">Last 24 hours</div>
+            </div>
+          </div>
+          <div class="hf-row" style="gap:10px">
+            <div class="hf-sim-price">$ 64,210.42</div>
+            <span class="hf-pill success">+1.2% today</span>
+          </div>
+        </div>
+
+        <div class="hf-chart-wrap" style="height:240px;background:transparent;">
+          <svg viewBox="0 0 600 240" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="g1" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0%" stop-color="var(--brand)" stop-opacity="0.25"/>
+                <stop offset="100%" stop-color="var(--brand)" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <g stroke="var(--line)" stroke-width="1" stroke-dasharray="2 4">
+              <line x1="0" x2="600" y1="50"  y2="50"/>
+              <line x1="0" x2="600" y1="120" y2="120"/>
+              <line x1="0" x2="600" y1="190" y2="190"/>
+            </g>
+            <path d="M 0,180 C 40,170 70,200 110,170 S 180,100 230,130 300,210 360,150 430,80 490,120 560,90 600,75"
+              fill="none" stroke="var(--brand)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M 0,180 C 40,170 70,200 110,170 S 180,100 230,130 300,210 360,150 430,80 490,120 560,90 600,75 L 600,240 L 0,240 Z"
+              fill="url(#g1)"/>
+            <circle cx="600" cy="75" r="6" fill="#fff" stroke="var(--brand)" stroke-width="2.5"/>
+            <circle cx="600" cy="75" r="11" fill="var(--brand)" opacity="0.18"/>
+            <!-- price labels on right side -->
+            <g font-family="JetBrains Mono" font-size="10" fill="var(--ink-faint)" text-anchor="end">
+              <text x="595" y="46">$ 65k</text>
+              <text x="595" y="116">$ 64k</text>
+              <text x="595" y="186">$ 63k</text>
+            </g>
+          </svg>
+        </div>
+
+        <div class="hf-row" style="justify-content:space-between;margin-top:10px;">
+          <div class="hf-chip-row">
+            <button class="hf-chip-btn" style="padding:6px 12px">1H</button>
+            <button class="hf-chip-btn active" style="padding:6px 12px">1D</button>
+            <button class="hf-chip-btn" style="padding:6px 12px">1W</button>
+            <button class="hf-chip-btn" style="padding:6px 12px">1M</button>
+            <button class="hf-chip-btn" style="padding:6px 12px">1Y</button>
+            <button class="hf-chip-btn" style="padding:6px 12px">All</button>
+          </div>
+          <div class="hf-row" style="gap:6px;color:var(--ink-faint);font-size:12px;">
+            <span>Asset:</span>
+            <button class="hf-pill outline" style="padding:4px 10px;cursor:pointer;">BTC ⌄</button>
+          </div>
+        </div>
+
+        <div class="hf-stat-row">
+          <div class="hf-stat-cell"><div class="lbl">Open</div><div class="val hf-mono">$ 63,488</div></div>
+          <div class="hf-stat-cell"><div class="lbl">24h high</div><div class="val hf-mono">$ 64,901</div></div>
+          <div class="hf-stat-cell"><div class="lbl">24h low</div><div class="val hf-mono">$ 63,102</div></div>
+          <div class="hf-stat-cell"><div class="lbl">Volume</div><div class="val hf-mono">$ 1.2 B</div></div>
+        </div>
+      </div>
+
+      <!-- Holdings -->
+      <div class="hf-holdings">
+        <div class="hf-holdings-head">
+          <span>Your holdings (practice)</span>
+          <span class="hf-pill outline" style="font-size:11px;cursor:pointer;">See all →</span>
+        </div>
+        <div class="hf-holdings-row">
+          <div class="asset"><div class="ico-sm btc">₿</div>BTC <span class="hf-faint" style="font-weight:400;font-size:12px;">Bitcoin</span></div>
+          <div class="num">0.0142</div>
+          <div class="num text-right">$ 913.78</div>
+          <div class="text-right hf-pnl-pos">+$ 24.21</div>
+        </div>
+        <div class="hf-holdings-row">
+          <div class="asset"><div class="ico-sm eth">Ξ</div>ETH <span class="hf-faint" style="font-weight:400;font-size:12px;">Ethereum</span></div>
+          <div class="num">0.382</div>
+          <div class="num text-right">$ 1,205.20</div>
+          <div class="text-right hf-pnl-neg">−$ 8.40</div>
+        </div>
+        <div class="hf-holdings-row">
+          <div class="asset"><div class="ico-sm aapl">A</div>AAPL <span class="hf-faint" style="font-weight:400;font-size:12px;">Apple Inc.</span></div>
+          <div class="num">5 shares</div>
+          <div class="num text-right">$ 937.10</div>
+          <div class="text-right hf-pnl-pos">+$ 42.05</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: order panel -->
+    <aside class="hf-stack">
+      <div class="hf-order">
+        <div class="hf-order-tabs">
+          <button class="buy active">Buy</button>
+          <button class="sell">Sell</button>
+        </div>
+        <div class="hf-order-body">
+          <div class="hf-field">
+            <label class="hf-label">Order type</label>
+            <div class="hf-chip-row">
+              <button class="hf-chip-btn active">Market</button>
+              <button class="hf-chip-btn">Limit</button>
+              <button class="hf-chip-btn" style="padding:6px 10px;">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="hf-field">
+            <label class="hf-label">Amount to spend</label>
+            <div class="hf-amount-input focus">
+              <span>$ 250.00</span>
+              <span class="currency">USD</span>
+            </div>
+          </div>
+
+          <div class="hf-amount-chips">
+            <button>$100</button>
+            <button class="active">$250</button>
+            <button>$500</button>
+            <button>All</button>
+          </div>
+
+          <div class="hf-order-summary">
+            <div class="line"><span>You'll get</span><b>≈ 0.00389 BTC</b></div>
+            <div class="line"><span>Fee (practice)</span><b>$ 0.25</b></div>
+            <div class="line total"><span>Total cost</span><b>$ 250.25</b></div>
+          </div>
+
+          <button class="hf-btn success xl block">
+            Buy Bitcoin
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </button>
+          <div style="text-align:center;font-size:11px;color:var(--ink-faint);display:flex;justify-content:center;align-items:center;gap:6px;">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+            Practice money only — no real money will be spent
+          </div>
+        </div>
+      </div>
+
+      <div class="hf-card brand">
+        <div class="hf-row" style="gap:12px;align-items:flex-start;">
+          <div class="hf-fin-avatar" style="background:var(--brand)">
+            <svg width="24" height="24" viewBox="0 0 32 32" fill="none">
+              <circle cx="11" cy="13" r="2" fill="#fff"/>
+              <circle cx="21" cy="13" r="2" fill="#fff"/>
+              <path d="M10 20 Q16 24 22 20" stroke="#fff" stroke-width="2" stroke-linecap="round" fill="none"/>
+            </svg>
+          </div>
+          <div>
+            <div style="font-size:11px;font-weight:700;color:var(--brand-ink);letter-spacing:0.04em;">TODAY'S TIP</div>
+            <p style="margin:4px 0 0;font-size:13px;color:var(--brand-ink);line-height:1.6;">
+              Try the same trade with $25 first. See how the price feels different at smaller amounts before going bigger.
+            </p>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<div id="tweaks-root"></div>
+
+<script>
+  document.querySelectorAll('.hf-chip-row').forEach(row => {
+    row.querySelectorAll('.hf-chip-btn').forEach(b => b.addEventListener('click', () => {
+      row.querySelectorAll('.hf-chip-btn').forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+    }));
+  });
+  document.querySelectorAll('.hf-order-tabs button').forEach(t => t.addEventListener('click', () => {
+    t.parentElement.querySelectorAll('button').forEach(x => x.classList.remove('active'));
+    t.classList.add('active');
+    const buyBtn = document.querySelector('.hf-btn.success, .hf-btn.danger');
+    if (buyBtn) {
+      if (t.classList.contains('sell')) {
+        buyBtn.classList.remove('success');
+        buyBtn.classList.add('danger');
+        buyBtn.firstChild && (buyBtn.firstChild.textContent = 'Sell Bitcoin');
+      } else {
+        buyBtn.classList.remove('danger');
+        buyBtn.classList.add('success');
+        buyBtn.firstChild && (buyBtn.firstChild.textContent = 'Buy Bitcoin');
+      }
+    }
+  }));
+</script>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel" src="hifi-tweaks.jsx"></script>
+
+</body>
+</html>

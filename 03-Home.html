@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Foothold — Home</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="hifi.css" />
+<link rel="stylesheet" href="hifi-screens.css" />
+</head>
+<body>
+
+<header class="hf-topbar">
+  <div class="hf-container hf-topbar-inner">
+    <div class="hf-row" style="gap:32px">
+      <a class="hf-brand" href="Home — Hi-fi.html">
+        <span class="hf-brand-mark"><span>F</span></span>
+        Foothold
+      </a>
+      <nav class="hf-nav">
+        <a href="Home — Hi-fi.html" class="active">Home</a>
+        <a href="Lesson — Hi-fi.html">Learn</a>
+        <a href="Practice — Hi-fi.html">Practice</a>
+        <a href="Glossary — Hi-fi.html">Glossary</a>
+        <a href="Progress — Hi-fi.html">Progress</a>
+      </nav>
+    </div>
+    <div class="hf-topbar-actions">
+      <span class="hf-pill outline">Plain English ✓</span>
+      <button class="hf-iconbtn" aria-label="Settings">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 11-4 0v-.09a1.65 1.65 0 00-1-1.51 1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 110-4h.09a1.65 1.65 0 001.51-1 1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 114 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 110 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+      </button>
+      <button class="hf-iconbtn" style="background:var(--brand);color:#fff;border-radius:50%;font-weight:700;font-size:13px;">M</button>
+    </div>
+  </div>
+</header>
+
+<main class="hf-container hf-page" data-screen-label="Home — pick something to learn">
+
+  <!-- Page header -->
+  <div class="hf-page-head">
+    <div>
+      <h1>Good morning, Maria 👋</h1>
+      <p class="sub">Pick something for today — your goal is 10 minutes.</p>
+    </div>
+    <div class="hf-row">
+      <span class="hf-pill brand">🔥 4-day streak</span>
+      <span class="hf-pill outline">⏱  3 min today</span>
+    </div>
+  </div>
+
+  <!-- Continue card -->
+  <div class="hf-continue">
+    <div class="play">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+    </div>
+    <div class="hf-grow">
+      <div class="meta">Continue where you left off</div>
+      <div class="title">Stock Market 101 — Lesson 4: "What is a stock?"</div>
+      <div class="hf-row" style="gap:8px;">
+        <div class="hf-bar"><div style="width:40%"></div></div>
+        <span style="font-size:11px;opacity:0.7;font-family:var(--font-mono);">40%</span>
+      </div>
+    </div>
+    <a href="Lesson — Hi-fi.html" class="btn-resume" style="text-decoration:none;display:inline-flex;align-items:center;gap:6px;">
+      Resume
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+
+  <!-- Filter row -->
+  <div class="hf-filter-row">
+    <div class="hf-input">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--ink-faint)"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      <input type="text" placeholder="Search lessons or terms…" />
+    </div>
+    <div class="hf-chip-row">
+      <button class="hf-chip-btn active">All</button>
+      <button class="hf-chip-btn">🪙 Crypto</button>
+      <button class="hf-chip-btn">📈 Stocks</button>
+      <button class="hf-chip-btn">💱 Forex</button>
+      <button class="hf-chip-btn">Beginner</button>
+    </div>
+  </div>
+
+  <!-- Catalog -->
+  <div class="hf-catalog">
+
+    <a href="Lesson — Hi-fi.html" class="hf-lesson-card" style="text-decoration:none;color:inherit;">
+      <div class="hf-lesson-cover stocks">
+        <span class="shape" style="width:90px;height:90px;top:-20px;right:-20px;"></span>
+        <span class="shape" style="width:50px;height:50px;bottom:-15px;left:30%;"></span>
+        <div class="glyph">📈</div>
+      </div>
+      <div class="hf-lesson-card-meta">
+        <span class="hf-pill outline" style="font-size:10px;padding:2px 8px;">📈 Stocks</span>
+        <span>4 min · video</span>
+      </div>
+      <div class="title">What is the stock market?</div>
+      <div class="status" style="color:var(--success);">✓ Done</div>
+    </a>
+
+    <a href="Lesson — Hi-fi.html" class="hf-lesson-card" style="text-decoration:none;color:inherit;">
+      <div class="hf-lesson-cover stocks">
+        <span class="shape" style="width:60px;height:60px;top:20px;left:20px;"></span>
+        <span class="shape" style="width:30px;height:30px;bottom:20px;right:30px;"></span>
+        <div class="glyph">📊</div>
+      </div>
+      <div class="hf-lesson-card-meta">
+        <span class="hf-pill outline" style="font-size:10px;padding:2px 8px;">📈 Stocks</span>
+        <span>6 min · interactive</span>
+      </div>
+      <div class="title">Reading a candlestick chart</div>
+      <div class="status" style="color:var(--brand);">▸ Continue</div>
+    </a>
+
+    <a href="Lesson — Hi-fi.html" class="hf-lesson-card" style="text-decoration:none;color:inherit;">
+      <div class="hf-lesson-cover crypto">
+        <span class="shape" style="width:80px;height:80px;top:-30px;right:30%;"></span>
+        <span class="shape" style="width:40px;height:40px;bottom:-10px;right:-10px;"></span>
+        <div class="glyph">₿</div>
+      </div>
+      <div class="hf-lesson-card-meta">
+        <span class="hf-pill outline" style="font-size:10px;padding:2px 8px;">🪙 Crypto</span>
+        <span>5 min · article</span>
+      </div>
+      <div class="title">Crypto wallets, explained</div>
+      <div class="status" style="color:var(--brand);">● New</div>
+    </a>
+
+    <a href="Lesson — Hi-fi.html" class="hf-lesson-card" style="text-decoration:none;color:inherit;">
+      <div class="hf-lesson-cover forex">
+        <span class="shape" style="width:70px;height:70px;top:10px;right:-15px;"></span>
+        <span class="shape" style="width:40px;height:40px;bottom:-15px;left:10px;"></span>
+        <div class="glyph">€$</div>
+      </div>
+      <div class="hf-lesson-card-meta">
+        <span class="hf-pill outline" style="font-size:10px;padding:2px 8px;">💱 Forex</span>
+        <span>7 min · video</span>
+      </div>
+      <div class="title">What is a currency pair?</div>
+      <div class="status" style="color:var(--ink-faint);">Not started</div>
+    </a>
+
+    <a href="Lesson — Hi-fi.html" class="hf-lesson-card" style="text-decoration:none;color:inherit;">
+      <div class="hf-lesson-cover stocks">
+        <span class="shape" style="width:90px;height:90px;top:-30px;left:-20px;"></span>
+        <span class="shape" style="width:30px;height:30px;top:50%;right:20px;"></span>
+        <div class="glyph">🐂🐻</div>
+      </div>
+      <div class="hf-lesson-card-meta">
+        <span class="hf-pill outline" style="font-size:10px;padding:2px 8px;">📈 Stocks</span>
+        <span>3 min · video</span>
+      </div>
+      <div class="title">Bull vs. bear markets</div>
+      <div class="status" style="color:var(--ink-faint);">Not started</div>
+    </a>
+
+    <a href="Lesson — Hi-fi.html" class="hf-lesson-card" style="text-decoration:none;color:inherit;">
+      <div class="hf-lesson-cover brand">
+        <span class="shape" style="width:80px;height:80px;top:-20px;right:-25px;"></span>
+        <span class="shape" style="width:50px;height:50px;bottom:-20px;left:20px;"></span>
+        <div class="glyph">⚠</div>
+      </div>
+      <div class="hf-lesson-card-meta">
+        <span class="hf-pill outline" style="font-size:10px;padding:2px 8px;">All markets</span>
+        <span>5 min · article</span>
+      </div>
+      <div class="title">Risk: "never invest more than you can lose"</div>
+      <div class="status" style="color:var(--ink-faint);">Not started</div>
+    </a>
+
+  </div>
+
+</main>
+
+<div id="tweaks-root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel" src="hifi-tweaks.jsx"></script>
+
+</body>
+</html>
