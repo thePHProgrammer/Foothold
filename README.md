@@ -2,22 +2,22 @@
 
 > A free, mobile-first platform to learn stocks, crypto, and forex — one step at a time.
 
-**Status:** Step 1 complete — Authentication System ✅
+**Status:** Step 2 complete — Learning Modules ✅
 
 ---
 
 ## Tech stack
 
-| Layer      | Technology                         |
-| ---------- | ---------------------------------- |
-| Framework  | Next.js 14 (App Router)            |
-| Language   | TypeScript (strict)                |
-| Styling    | TailwindCSS + custom design tokens |
-| Auth       | NextAuth v5 + Google OAuth         |
-| Database   | Neon (PostgreSQL serverless)       |
-| ORM        | Prisma                             |
-| AI chatbot | Ollama (self-hosted — Step 3)      |
-| Deployment | Vercel                             |
+| Layer       | Technology                         |
+| ----------- | ---------------------------------- |
+| Framework   | Next.js 14 (App Router)            |
+| Language    | TypeScript (strict)                |
+| Styling     | TailwindCSS + custom design tokens |
+| Auth        | NextAuth v5 + Google OAuth         |
+| Database    | Neon (PostgreSQL serverless)       |
+| ORM         | Prisma                             |
+| Market data | CoinGecko + Finnhub (free tiers)   |
+| Deployment  | Vercel                             |
 
 ---
 
@@ -76,7 +76,7 @@ npx prisma migrate dev --name init
 npm run dev
 ```
 
-Visit `http://localhost:3000` → redirected to `/login` → sign in with Google → lands on `/home`.
+Visit `http://localhost:3000` → redirected to `/login` → sign in with Google → completes onboarding → lands on `/learn`.
 
 ---
 
@@ -135,15 +135,14 @@ src/
 | Step | Feature                     | Status      |
 | ---- | --------------------------- | ----------- |
 | 1    | Authentication System       | ✅ Complete |
-| 2    | Learning Modules            | ⏳ Next     |
-| 3    | AI Chatbot (Ollama)         | ⏳ Pending  |
-| 4    | Live Market Data            | ⏳ Pending  |
-| 5    | Paper Trading Simulator     | ⏳ Pending  |
-| 6    | Quizzes & Progress Tracking | ⏳ Pending  |
-| 7    | Trading Journal             | ⏳ Pending  |
-| 8    | Watchlists & News Feed      | ⏳ Pending  |
-| 9    | Admin CMS                   | ⏳ Pending  |
-| 10   | Dark Mode & Accessibility   | ⏳ Pending  |
+| 2    | Learning Modules            | ✅ Complete |
+| 3    | Live Market Data            | ⏳ Next     |
+| 4    | Paper Trading Simulator     | ⏳ Pending  |
+| 5    | Quizzes & Progress Tracking | ⏳ Pending  |
+| 6    | Trading Journal             | ⏳ Pending  |
+| 7    | Watchlists & News Feed      | ⏳ Pending  |
+| 8    | Admin CMS                   | ⏳ Pending  |
+| 9    | Dark Mode & Accessibility   | ⏳ Pending  |
 
 ---
 

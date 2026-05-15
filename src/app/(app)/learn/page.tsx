@@ -1,8 +1,11 @@
+import { Suspense } from 'react'
 import type { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 
 import { LessonCatalog } from '@/components/lessons/lesson-filter'
+import { MarketPills } from '@/components/markets/market-pills'
 import { Badge } from '@/components/ui/badge'
+import { features } from '@/config/features'
 import { getCurrentUser } from '@/server/auth'
 import { getCatalogWithProgress, computeProgressStats } from '@/server/services/lessons.service'
 
@@ -36,6 +39,11 @@ export default async function LearnPage() {
           <Badge variant="outline" size="lg">
             ✓ {stats.chaptersCompleted} chapters done
           </Badge>
+          {features.liveMarket && (
+            <Suspense fallback={null}>
+              <MarketPills />
+            </Suspense>
+          )}
         </div>
       </div>
 

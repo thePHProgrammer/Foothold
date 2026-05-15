@@ -18,8 +18,8 @@ function escapeRegex(s: string): string {
 }
 
 /**
- * Step 2 MVP: dumb substring match against the glossary.
- * Step 3 will swap this body for an Ollama call without touching the client.
+ * Substring-based decoder over the static GLOSSARY.
+ * Intentionally local and deterministic — no external LLM call.
  */
 export async function decodeText(input: unknown): Promise<DecodeResult> {
   const { text } = decodeTextSchema.parse(input)

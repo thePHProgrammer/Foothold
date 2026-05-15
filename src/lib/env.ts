@@ -22,6 +22,9 @@ const envSchema = z.object({
   NEXT_PUBLIC_APP_URL: z.string().url().optional(),
   NEXT_PUBLIC_APP_NAME: z.string().optional().default('Foothold'),
 
+  // Market data providers
+  FINNHUB_API_KEY: z.string().min(1).optional(),
+
   // Runtime
   NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
 })
