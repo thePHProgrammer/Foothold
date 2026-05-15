@@ -1,21 +1,25 @@
 import { redirect } from 'next/navigation'
-import { auth } from '@/auth'
-import { Topbar } from '@/components/layout/topbar'
 import { headers } from 'next/headers'
 
+import { Topbar } from '@/components/layout/topbar'
+import { getCurrentUser } from '@/server/auth'
+
 /**
- * Protected app layout — server-side auth gate.
- * The middleware also guards routes, but this provides a fallback and
- * passes the current path to the Topbar for active state.
+ * Protected app layout — server-side auth gate AND onboarding gate.
+ * Edge middleware can't query Prisma, so the DB-backed onboarding check
+ * happens here. The DB (not the JWT) is the source of truth.
  */
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
-  const session = await auth()
+  const user = await getCurrentUser()
 
-  if (!session?.user) {
+  if (!user) {
     redirect('/login')
   }
 
-  // Get current pathname for active nav state
+  if (!user.onboardingCompleted) {
+    redirect('/onboarding')
+  }
+
   const headersList = headers()
   const pathname = headersList.get('x-invoke-path') ?? ''
 

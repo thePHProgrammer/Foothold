@@ -30,7 +30,7 @@ export default auth((req) => {
 
   // Redirect authenticated users away from login
   if (isAuthRoute && isLoggedIn) {
-    return NextResponse.redirect(new URL('/home', nextUrl))
+    return NextResponse.redirect(new URL('/learn', nextUrl))
   }
 
   // Redirect unauthenticated users to login

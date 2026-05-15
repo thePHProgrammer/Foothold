@@ -3,12 +3,10 @@ import { auth } from '@/auth'
 
 /**
  * Root page — redirects based on auth state.
- * Authenticated users → /home
+ * Authenticated users → /learn (gated by (app)/layout to /onboarding if needed).
  * Unauthenticated → /login
- *
- * In Step 2 this becomes a marketing landing page with a hero section.
  */
 export default async function RootPage() {
   const session = await auth()
-  redirect(session?.user ? '/home' : '/login')
+  redirect(session?.user ? '/learn' : '/login')
 }
