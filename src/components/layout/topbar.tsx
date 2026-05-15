@@ -7,6 +7,7 @@ import { getInitials } from '@/lib/utils'
 
 const NAV_LINKS = [
   { href: '/learn', label: 'Learn' },
+  { href: '/markets', label: 'Markets' },
   { href: '/glossary', label: 'Glossary' },
   { href: '/progress', label: 'Progress' },
 ] as const
@@ -18,7 +19,7 @@ export async function Topbar({ activePath }: { activePath?: string }) {
 
   return (
     <header
-      className="sticky top-0 z-50 border-b border-line"
+      className="border-b border-line"
       style={{
         background: 'rgba(251,249,246,0.85)',
         backdropFilter: 'saturate(180%) blur(12px)',

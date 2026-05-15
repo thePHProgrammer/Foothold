@@ -38,6 +38,11 @@ const config: Config = {
           DEFAULT: '#C99514',
           tint: '#FBEFC8',
         },
+        market: {
+          up: '#2F8F5A',
+          down: '#C75348',
+          neutral: '#A39C92',
+        },
       },
       fontFamily: {
         sans: ['var(--font-manrope)', 'system-ui', 'sans-serif'],

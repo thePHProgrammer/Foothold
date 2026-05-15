@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound, redirect } from 'next/navigation'
@@ -6,6 +7,8 @@ import { Badge } from '@/components/ui/badge'
 import { ChapterContent } from '@/components/lessons/chapter-content'
 import { ChapterPager } from '@/components/lessons/chapter-pager'
 import { ChapterRail } from '@/components/lessons/chapter-rail'
+import { RelatedMarketStrip } from '@/components/markets/related-market-strip'
+import { features } from '@/config/features'
 import { getCurrentUser } from '@/server/auth'
 import { getLessonWithProgress } from '@/server/services/lessons.service'
 
@@ -76,6 +79,11 @@ export default async function ChapterPage({ params }: Props) {
                 : null
             }
           />
+          {features.liveMarket && (
+            <Suspense fallback={null}>
+              <RelatedMarketStrip topic={lesson.topic} />
+            </Suspense>
+          )}
         </div>
       </div>
     </div>
