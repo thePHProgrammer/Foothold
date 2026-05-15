@@ -2,7 +2,7 @@
 
 > A free, mobile-first platform to learn stocks, crypto, and forex — one step at a time.
 
-**Status:** Step 1 complete — Authentication System ✅
+**Status:** Step 2 complete — Learning Modules ✅
 
 ---
 
@@ -76,7 +76,7 @@ npx prisma migrate dev --name init
 npm run dev
 ```
 
-Visit `http://localhost:3000` → redirected to `/login` → sign in with Google → lands on `/home`.
+Visit `http://localhost:3000` → redirected to `/login` → sign in with Google → completes onboarding → lands on `/learn`.
 
 ---
 
