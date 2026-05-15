@@ -5,7 +5,7 @@ import { logger } from '@/lib/logger'
 
 /** Initiates Google OAuth sign-in flow. */
 export async function signInWithGoogle(callbackUrl?: string) {
-  await signIn('google', { redirectTo: callbackUrl ?? '/home' })
+  await signIn('google', { redirectTo: callbackUrl ?? '/learn' })
 }
 
 /** Signs the user out and redirects to /login. */

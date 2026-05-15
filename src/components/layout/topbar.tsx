@@ -6,9 +6,7 @@ import { BrandMark } from './brand-mark'
 import { getInitials } from '@/lib/utils'
 
 const NAV_LINKS = [
-  { href: '/home', label: 'Home' },
   { href: '/learn', label: 'Learn' },
-  { href: '/practice', label: 'Practice' },
   { href: '/glossary', label: 'Glossary' },
   { href: '/progress', label: 'Progress' },
 ] as const
@@ -31,7 +29,7 @@ export async function Topbar({ activePath }: { activePath?: string }) {
         {/* Left: brand + desktop nav */}
         <div className="flex items-center gap-8">
           <Link
-            href="/home"
+            href="/learn"
             className="flex items-center gap-2.5 font-extrabold text-ink no-underline"
           >
             <BrandMark size="sm" />

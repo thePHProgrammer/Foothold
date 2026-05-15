@@ -8,7 +8,7 @@ import { logger } from '@/lib/logger'
 // Ensure types are augmented
 import '@/types/auth'
 
-export const { handlers, auth, signIn, signOut } = NextAuth({
+export const { handlers, auth, signIn, signOut, unstable_update } = NextAuth({
   adapter: PrismaAdapter(prisma),
 
   providers: [

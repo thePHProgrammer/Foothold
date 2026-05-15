@@ -9,7 +9,7 @@
  */
 export const features = {
   /** Step 2: Lesson modules and learning hub */
-  lessons: false,
+  lessons: true,
 
   /** Step 3: Ollama-powered AI trading assistant */
   chatbot: false,

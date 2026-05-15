@@ -17,7 +17,7 @@ export default function LoginPage({
 }: {
   searchParams: { callbackUrl?: string; error?: string }
 }) {
-  const callbackUrl = searchParams.callbackUrl ?? '/home'
+  const callbackUrl = searchParams.callbackUrl ?? '/learn'
   const hasError = !!searchParams.error
 
   return (
