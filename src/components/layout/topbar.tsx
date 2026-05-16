@@ -3,11 +3,13 @@ import Image from 'next/image'
 import { auth } from '@/auth'
 import { handleSignOut } from '@/actions/auth'
 import { BrandMark } from './brand-mark'
+import { features } from '@/config/features'
 import { getInitials } from '@/lib/utils'
 
 const NAV_LINKS = [
   { href: '/learn', label: 'Learn' },
   { href: '/markets', label: 'Markets' },
+  ...(features.paperTrading ? [{ href: '/practice', label: 'Practice' }] : []),
   { href: '/glossary', label: 'Glossary' },
   { href: '/progress', label: 'Progress' },
 ] as const
