@@ -80,6 +80,9 @@ model User {
   // Relations (Learning)
   lessonProgress  UserLessonProgress[]
   onboardingPrefs UserOnboardingPreferences?
+
+  // Relations (Paper trading)
+  paperPortfolio PaperPortfolio?
 }
 
 // ─── Learning ────────────────────────────────────────────────────────────────
@@ -111,4 +114,60 @@ model UserOnboardingPreferences {
   updatedAt                 DateTime @updatedAt
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// ─── Paper trading ───────────────────────────────────────────────────────────
+
+enum PaperTradeSide {
+  buy
+  sell
+}
+
+model PaperPortfolio {
+  id           String   @id @default(cuid())
+  userId       String   @unique
+  // Initial deposit — kept so all-time return % survives partial sells.
+  startingCash Decimal  @db.Decimal(18, 2)
+  cashBalance  Decimal  @db.Decimal(18, 2)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  user      User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  positions PaperPosition[]
+  trades    PaperTrade[]
+}
+
+model PaperPosition {
+  id          String  @id @default(cuid())
+  portfolioId String
+  symbol      String
+  quantity    Decimal @db.Decimal(36, 18)
+  avgCost     Decimal @db.Decimal(18, 8)
+  // Accumulates on sells. Row is retained at quantity 0 so realised P&L
+  // history survives a fully-closed position (Step 6/7 analytics).
+  realizedPnl Decimal @default(0) @db.Decimal(18, 2)
+  updatedAt   DateTime @updatedAt
+
+  portfolio PaperPortfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+
+  @@unique([portfolioId, symbol])
+  @@index([portfolioId])
+}
+
+model PaperTrade {
+  id          String         @id @default(cuid())
+  portfolioId String
+  symbol      String
+  side        PaperTradeSide
+  quantity    Decimal        @db.Decimal(36, 18)
+  price       Decimal        @db.Decimal(18, 8)
+  fee         Decimal        @db.Decimal(18, 2)
+  total       Decimal        @db.Decimal(18, 2)
+  // Executed-price source for auditability (e.g. 'coingecko' | 'finnhub').
+  provider    String?
+  createdAt   DateTime       @default(now())
+
+  portfolio PaperPortfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+
+  @@index([portfolioId, createdAt])
 }

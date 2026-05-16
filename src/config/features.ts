@@ -15,7 +15,7 @@ export const features = {
   liveMarket: true,
 
   /** Step 4: Paper trading simulator */
-  paperTrading: false,
+  paperTrading: true,
 
   /** Step 5: Interactive quizzes */
   quizzes: false,
