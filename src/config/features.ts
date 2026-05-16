@@ -21,7 +21,7 @@ export const features = {
   quizzes: true,
 
   /** Step 6: Trading journal */
-  journal: false,
+  journal: true,
 
   /** Step 7: Watchlists */
   watchlists: false,

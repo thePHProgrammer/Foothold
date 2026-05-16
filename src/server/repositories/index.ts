@@ -3,5 +3,6 @@
 
 export * as lessonsRepo from './lessons.repository'
 export * as onboardingRepo from './onboarding.repository'
+export * as journalRepo from './journal.repository'
 export * as paperTradingRepo from './paper-trading.repository'
 export * as quizRepo from './quiz.repository'

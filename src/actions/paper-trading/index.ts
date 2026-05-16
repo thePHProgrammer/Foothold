@@ -3,11 +3,13 @@
 import { revalidatePath } from 'next/cache'
 
 import { logger } from '@/lib/logger'
+import { type OrderErrorCode } from '@/lib/paper-trading/constants'
 import { createPortfolioSchema, placeOrderSchema } from '@/lib/validations/paper-trading'
 import { requireAuth } from '@/server/auth'
 import * as paperTradingService from '@/server/services/paper-trading.service'
 
 export type ActionResult = { ok: true } | { ok: false; error: string }
+export type PlaceOrderResult = { ok: true } | { ok: false; code: OrderErrorCode }
 
 const firstIssue = (messages: string[]): string => messages[0] ?? 'Invalid input.'
 
@@ -25,16 +27,16 @@ export async function createPaperPortfolio(input: unknown): Promise<ActionResult
   return { ok: true }
 }
 
-export async function placePaperOrder(input: unknown): Promise<ActionResult> {
+export async function placePaperOrder(input: unknown): Promise<PlaceOrderResult> {
   const session = await requireAuth()
 
   const parsed = placeOrderSchema.safeParse(input)
   if (!parsed.success) {
-    return { ok: false, error: firstIssue(parsed.error.issues.map((i) => i.message)) }
+    return { ok: false, code: 'INVALID_AMOUNT' }
   }
 
   const result = await paperTradingService.executeOrder(session.user.id, parsed.data)
-  if (!result.ok) return result
+  if (!result.ok) return { ok: false, code: result.code }
 
   revalidatePath('/practice')
   logger.info('Paper trade executed', {

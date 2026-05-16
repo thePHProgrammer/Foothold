@@ -1,4 +1,7 @@
+import Link from 'next/link'
+
 import { Card } from '@/components/ui/card'
+import { features } from '@/config/features'
 import { formatQty, formatUsd } from '@/lib/paper-trading/format'
 import type { TradeRow } from '@/server/services/paper-trading.service'
 import { cn } from '@/lib/utils'
@@ -41,9 +44,17 @@ export function RecentTrades({ trades }: { trades: TradeRow[] }) {
                   @ {formatUsd(t.price)} · {timeFmt.format(t.createdAt)}
                 </p>
               </div>
-              <p className="text-right font-mono text-sm font-semibold text-ink">
-                {formatUsd(t.total)}
-              </p>
+              <div className="text-right">
+                <p className="font-mono text-sm font-semibold text-ink">{formatUsd(t.total)}</p>
+                {features.journal && (
+                  <Link
+                    href={`/journal?tradeId=${t.id}`}
+                    className="font-mono text-[11px] font-semibold text-brand no-underline hover:underline"
+                  >
+                    Journal →
+                  </Link>
+                )}
+              </div>
             </li>
           ))}
         </ul>
