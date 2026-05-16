@@ -83,6 +83,12 @@ model User {
 
   // Relations (Paper trading)
   paperPortfolio PaperPortfolio?
+
+  // Relations (Quizzes)
+  quizAttempts UserQuizAttempt[]
+
+  // Relations (Journal)
+  journalEntries JournalEntry[]
 }
 
 // ─── Learning ────────────────────────────────────────────────────────────────
@@ -165,9 +171,67 @@ model PaperTrade {
   total       Decimal        @db.Decimal(18, 2)
   // Executed-price source for auditability (e.g. 'coingecko' | 'finnhub').
   provider    String?
+  // Immutable execution snapshot — the market catalog is external and can
+  // evolve (rename/delist/remap); historical truth must not change.
+  symbolName  String?
+  kind        String?
+  // Market-execution time, kept distinct from createdAt (DB row time).
+  executedAt  DateTime       @default(now())
   createdAt   DateTime       @default(now())
 
-  portfolio PaperPortfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+  portfolio      PaperPortfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+  journalEntries JournalEntry[]
 
   @@index([portfolioId, createdAt])
+}
+
+// ─── Quizzes ─────────────────────────────────────────────────────────────────
+
+model UserQuizAttempt {
+  id          String   @id @default(cuid())
+  userId      String
+  lessonSlug  String
+  correct     Int
+  total       Int
+  // 0–100, stored so progress aggregation never recomputes from raw answers.
+  scorePct    Int
+  passed      Boolean
+  // Client-measured wall-clock; future engagement / anti-spam / achievements.
+  durationSec Int?
+  // Future-proofs analytics if a lesson's question set changes.
+  quizVersion Int      @default(1)
+  createdAt   DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // No @@unique: every genuine submission is its own attempt (event history);
+  // "best" is a derived view, not stored state.
+  @@index([userId])
+  @@index([userId, createdAt])
+  @@index([userId, lessonSlug])
+}
+
+// ─── Journal ─────────────────────────────────────────────────────────────────
+
+model JournalEntry {
+  id        String   @id @default(cuid())
+  userId    String
+  title     String
+  rationale String // "what I did & why"
+  mood      String // validated against MOODS in zod
+  lesson    String? // "what I'd do differently"
+  tags      String[]
+  // Optional paper-trade link. SetNull (not Cascade) + a denormalised
+  // snapshot so the reflection survives a portfolio reset that deletes
+  // the trade. Snapshot is built server-side from an owned trade.
+  tradeId       String?
+  tradeSnapshot String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  user  User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  trade PaperTrade? @relation(fields: [tradeId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([userId, createdAt])
 }

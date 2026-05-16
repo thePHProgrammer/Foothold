@@ -8,6 +8,7 @@ import { ChapterContent } from '@/components/lessons/chapter-content'
 import { ChapterPager } from '@/components/lessons/chapter-pager'
 import { ChapterRail } from '@/components/lessons/chapter-rail'
 import { RelatedMarketStrip } from '@/components/markets/related-market-strip'
+import { QuizCTA } from '@/components/quiz/quiz-cta'
 import { features } from '@/config/features'
 import { getCurrentUser } from '@/server/auth'
 import { getLessonWithProgress } from '@/server/services/lessons.service'
@@ -79,6 +80,11 @@ export default async function ChapterPage({ params }: Props) {
                 : null
             }
           />
+          {features.quizzes && next === null && (
+            <Suspense fallback={null}>
+              <QuizCTA lessonSlug={lesson.slug} userId={user.id} />
+            </Suspense>
+          )}
           {features.liveMarket && (
             <Suspense fallback={null}>
               <RelatedMarketStrip topic={lesson.topic} />

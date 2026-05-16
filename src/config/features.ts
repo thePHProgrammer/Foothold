@@ -18,10 +18,10 @@ export const features = {
   paperTrading: true,
 
   /** Step 5: Interactive quizzes */
-  quizzes: false,
+  quizzes: true,
 
   /** Step 6: Trading journal */
-  journal: false,
+  journal: true,
 
   /** Step 7: Watchlists */
   watchlists: false,

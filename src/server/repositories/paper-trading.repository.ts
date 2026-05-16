@@ -43,7 +43,37 @@ export type TradeRow = {
   fee: number
   total: number
   provider: string | null
+  symbolName: string | null
+  kind: string | null
   createdAt: Date
+}
+
+function toTradeRow(t: {
+  id: string
+  symbol: string
+  side: 'buy' | 'sell'
+  quantity: Prisma.Decimal
+  price: Prisma.Decimal
+  fee: Prisma.Decimal
+  total: Prisma.Decimal
+  provider: string | null
+  symbolName: string | null
+  kind: string | null
+  createdAt: Date
+}): TradeRow {
+  return {
+    id: t.id,
+    symbol: t.symbol,
+    side: t.side,
+    quantity: toNum(t.quantity),
+    price: toNum(t.price),
+    fee: toNum(t.fee),
+    total: toNum(t.total),
+    provider: t.provider,
+    symbolName: t.symbolName,
+    kind: t.kind,
+    createdAt: t.createdAt,
+  }
 }
 
 export type PortfolioWithRelations = PortfolioRow & {
@@ -75,18 +105,26 @@ export async function getPortfolio(
       avgCost: toNum(p.avgCost),
       realizedPnl: toNum(p.realizedPnl),
     })),
-    trades: portfolio.trades.map((t) => ({
-      id: t.id,
-      symbol: t.symbol,
-      side: t.side,
-      quantity: toNum(t.quantity),
-      price: toNum(t.price),
-      fee: toNum(t.fee),
-      total: toNum(t.total),
-      provider: t.provider,
-      createdAt: t.createdAt,
-    })),
+    trades: portfolio.trades.map(toTradeRow),
   }
+}
+
+/** All of a user's trades (across the portfolio), newest first. */
+export async function getTradesByUser(userId: string, limit = 50): Promise<TradeRow[]> {
+  const trades = await prisma.paperTrade.findMany({
+    where: { portfolio: { userId } },
+    orderBy: { createdAt: 'desc' },
+    take: limit,
+  })
+  return trades.map(toTradeRow)
+}
+
+/** Ownership-checked single trade — used to build a journal snapshot. */
+export async function getTradeForUser(userId: string, tradeId: string): Promise<TradeRow | null> {
+  const trade = await prisma.paperTrade.findFirst({
+    where: { id: tradeId, portfolio: { userId } },
+  })
+  return trade ? toTradeRow(trade) : null
 }
 
 /** Creates the portfolio, or resets cash if one somehow already exists. */
@@ -137,6 +175,8 @@ export async function applyTrade(args: {
     fee: number
     total: number
     provider: string | null
+    symbolName: string | null
+    kind: string | null
   }
 }): Promise<TradeRow> {
   const { portfolioId, newCashBalance, position, trade } = args
@@ -173,22 +213,14 @@ export async function applyTrade(args: {
         fee: trade.fee,
         total: trade.total,
         provider: trade.provider,
+        symbolName: trade.symbolName,
+        kind: trade.kind,
       },
     })
 
     const [, , created] = await prisma.$transaction([cashUpdate, positionUpsert, tradeCreate])
 
-    return {
-      id: created.id,
-      symbol: created.symbol,
-      side: created.side,
-      quantity: toNum(created.quantity),
-      price: toNum(created.price),
-      fee: toNum(created.fee),
-      total: toNum(created.total),
-      provider: created.provider,
-      createdAt: created.createdAt,
-    }
+    return toTradeRow(created)
   } catch (error) {
     logger.error('Failed to apply paper trade', {
       error,

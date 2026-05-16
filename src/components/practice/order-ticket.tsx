@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
 import { formatPrice } from '@/lib/market/format'
-import { FEE_RATE, QUICK_AMOUNTS } from '@/lib/paper-trading/constants'
+import { FEE_RATE, ORDER_ERROR_MESSAGES, QUICK_AMOUNTS } from '@/lib/paper-trading/constants'
 import { formatQty, formatUsd } from '@/lib/paper-trading/format'
 import { calculateOrderPreview, type OrderSide } from '@/lib/paper-trading/portfolio'
 import type { Kind } from '@/lib/market/symbols'
@@ -58,7 +58,7 @@ export function OrderTicket({
       if (result.ok) {
         setDone(`${side === 'buy' ? 'Bought' : 'Sold'} ${symbol} (practice)`)
       } else {
-        setError(result.error)
+        setError(ORDER_ERROR_MESSAGES[result.code])
       }
     })
   }

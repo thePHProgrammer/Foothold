@@ -1,4 +1,5 @@
 import { SYMBOLS_BY_SYMBOL } from '@/lib/market/symbols'
+import { type OrderErrorCode } from '@/lib/paper-trading/constants'
 import {
   buildPositionView,
   calculateOrderPreview,
@@ -24,7 +25,7 @@ export type PracticeScreenData = {
   recentTrades: TradeRow[]
 }
 
-export type OrderResult = { ok: true; trade: TradeRow } | { ok: false; error: string }
+export type OrderResult = { ok: true; trade: TradeRow } | { ok: false; code: OrderErrorCode }
 
 /** Falls back to a known catalog symbol if the URL param is bogus. */
 export function resolveSelectedSymbol(symbol: string | undefined): string {
@@ -93,11 +94,11 @@ export async function resetPortfolio(userId: string): Promise<void> {
  */
 export async function executeOrder(userId: string, input: PlaceOrderInput): Promise<OrderResult> {
   const portfolio = await paperTradingRepo.getPortfolio(userId)
-  if (!portfolio) return { ok: false, error: 'Set up a practice portfolio first.' }
+  if (!portfolio) return { ok: false, code: 'PORTFOLIO_NOT_FOUND' }
 
   const [quote] = await getPricesFor([input.symbol])
   if (!quote || quote.price === null) {
-    return { ok: false, error: 'Price unavailable right now — try again in a moment.' }
+    return { ok: false, code: 'STALE_PRICE' }
   }
   const price = quote.price
 
@@ -106,10 +107,10 @@ export async function executeOrder(userId: string, input: PlaceOrderInput): Prom
   if (input.side === 'buy') {
     const preview = calculateOrderPreview({ side: 'buy', notional: input.notional, price })
     if (preview.quantity <= 0) {
-      return { ok: false, error: 'Enter an amount greater than zero.' }
+      return { ok: false, code: 'INVALID_AMOUNT' }
     }
     if (preview.total > portfolio.cashBalance) {
-      return { ok: false, error: 'Not enough play cash for this order.' }
+      return { ok: false, code: 'INSUFFICIENT_CASH' }
     }
 
     const prevQty = existing?.quantity ?? 0
@@ -134,6 +135,8 @@ export async function executeOrder(userId: string, input: PlaceOrderInput): Prom
         fee: preview.fee,
         total: preview.total,
         provider: quote.provider,
+        symbolName: quote.name,
+        kind: quote.kind,
       },
     })
     return { ok: true, trade }
@@ -142,12 +145,12 @@ export async function executeOrder(userId: string, input: PlaceOrderInput): Prom
   // sell
   const heldQty = existing?.quantity ?? 0
   if (!existing || heldQty <= 0) {
-    return { ok: false, error: `You don't hold any ${input.symbol}.` }
+    return { ok: false, code: 'INSUFFICIENT_QUANTITY' }
   }
 
   let sellQty = input.notional / price
   if (sellQty > heldQty * (1 + QTY_EPSILON)) {
-    return { ok: false, error: 'You cannot sell more than you hold.' }
+    return { ok: false, code: 'INSUFFICIENT_QUANTITY' }
   }
   // Snap a near-exact request to a clean full close.
   if (sellQty >= heldQty * (1 - QTY_EPSILON)) sellQty = heldQty
@@ -155,7 +158,7 @@ export async function executeOrder(userId: string, input: PlaceOrderInput): Prom
   const proceedsNotional = sellQty * price
   const preview = calculateOrderPreview({ side: 'sell', notional: proceedsNotional, price })
   if (preview.quantity <= 0) {
-    return { ok: false, error: 'Enter an amount greater than zero.' }
+    return { ok: false, code: 'INVALID_AMOUNT' }
   }
 
   const realizedThisSale = (price - existing.avgCost) * sellQty
@@ -178,6 +181,8 @@ export async function executeOrder(userId: string, input: PlaceOrderInput): Prom
       fee: preview.fee,
       total: preview.total,
       provider: quote.provider,
+      symbolName: quote.name,
+      kind: quote.kind,
     },
   })
   return { ok: true, trade }
