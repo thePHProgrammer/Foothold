@@ -24,10 +24,10 @@ export const features = {
   journal: true,
 
   /** Step 7: Watchlists */
-  watchlists: false,
+  watchlists: true,
 
-  /** Step 8: News feed */
-  newsFeed: false,
+  /** Step 7: Market news feed (on the watchlist page) */
+  newsFeed: true,
 
   /** Step 9: Admin CMS */
   adminCms: false,
