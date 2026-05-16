@@ -2,7 +2,7 @@
 
 > A free, mobile-first platform to learn stocks, crypto, and forex — one step at a time.
 
-**Status:** Step 4 complete — Paper Trading Simulator ✅
+**Status:** Step 5 complete — Quizzes & Progress Tracking ✅
 
 ---
 
@@ -87,12 +87,13 @@ Visit `http://localhost:3000` → redirected to `/login` → sign in with Google
 3. Run `npx prisma migrate deploy` once against your production `DIRECT_URL`
 4. Deploy — `prisma generate` runs automatically as part of `npm run build`
 
-> **Migration blocker:** Steps 2–4 added schema models
+> **Migration blocker:** Steps 2–5 added schema models
 > (`UserLessonProgress`, `UserOnboardingPreferences`, `PaperPortfolio`,
-> `PaperPosition`, `PaperTrade`, `PaperTradeSide`). The schema is generated
-> locally only — production must run `npx prisma migrate deploy` (or
-> `prisma migrate dev --name add_paper_trading`) against the Neon
-> `DIRECT_URL` before onboarding, progress, and paper trading work in prod.
+> `PaperPosition`, `PaperTrade`, `PaperTradeSide`, `UserQuizAttempt`). The
+> schema is generated locally only — production must run
+> `npx prisma migrate deploy` (or `prisma migrate dev --name add_quizzes`)
+> against the Neon `DIRECT_URL` before onboarding, progress, paper trading,
+> and quizzes work in prod.
 
 ---
 
@@ -145,8 +146,8 @@ src/
 | 2    | Learning Modules            | ✅ Complete |
 | 3    | Live Market Data            | ✅ Complete |
 | 4    | Paper Trading Simulator     | ✅ Complete |
-| 5    | Quizzes & Progress Tracking | ⏳ Next     |
-| 6    | Trading Journal             | ⏳ Pending  |
+| 5    | Quizzes & Progress Tracking | ✅ Complete |
+| 6    | Trading Journal             | ⏳ Next     |
 | 7    | Watchlists & News Feed      | ⏳ Pending  |
 | 8    | Admin CMS                   | ⏳ Pending  |
 | 9    | Dark Mode & Accessibility   | ⏳ Pending  |

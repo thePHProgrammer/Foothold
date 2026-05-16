@@ -83,6 +83,9 @@ model User {
 
   // Relations (Paper trading)
   paperPortfolio PaperPortfolio?
+
+  // Relations (Quizzes)
+  quizAttempts UserQuizAttempt[]
 }
 
 // ─── Learning ────────────────────────────────────────────────────────────────
@@ -170,4 +173,30 @@ model PaperTrade {
   portfolio PaperPortfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
 
   @@index([portfolioId, createdAt])
+}
+
+// ─── Quizzes ─────────────────────────────────────────────────────────────────
+
+model UserQuizAttempt {
+  id          String   @id @default(cuid())
+  userId      String
+  lessonSlug  String
+  correct     Int
+  total       Int
+  // 0–100, stored so progress aggregation never recomputes from raw answers.
+  scorePct    Int
+  passed      Boolean
+  // Client-measured wall-clock; future engagement / anti-spam / achievements.
+  durationSec Int?
+  // Future-proofs analytics if a lesson's question set changes.
+  quizVersion Int      @default(1)
+  createdAt   DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // No @@unique: every genuine submission is its own attempt (event history);
+  // "best" is a derived view, not stored state.
+  @@index([userId])
+  @@index([userId, createdAt])
+  @@index([userId, lessonSlug])
 }
