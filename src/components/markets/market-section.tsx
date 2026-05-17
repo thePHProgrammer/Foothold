@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react'
+
 import { MarketCard } from '@/components/markets/market-card'
 import type { MarketPrice } from '@/server/services/market-data.service'
 
@@ -5,10 +7,12 @@ export function MarketSection({
   title,
   emoji,
   prices,
+  renderAction,
 }: {
   title: string
   emoji: string
   prices: MarketPrice[]
+  renderAction?: (symbol: string) => ReactNode
 }) {
   if (prices.length === 0) return null
   return (
@@ -24,7 +28,7 @@ export function MarketSection({
       </div>
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {prices.map((p) => (
-          <MarketCard key={p.symbol} price={p} />
+          <MarketCard key={p.symbol} price={p} action={renderAction?.(p.symbol)} />
         ))}
       </div>
     </section>

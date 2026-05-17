@@ -11,6 +11,7 @@ const NAV_LINKS = [
   { href: '/markets', label: 'Markets' },
   ...(features.paperTrading ? [{ href: '/practice', label: 'Practice' }] : []),
   ...(features.journal ? [{ href: '/journal', label: 'Journal' }] : []),
+  ...(features.watchlists ? [{ href: '/watchlists', label: 'Watchlists' }] : []),
   { href: '/glossary', label: 'Glossary' },
   { href: '/progress', label: 'Progress' },
 ] as const

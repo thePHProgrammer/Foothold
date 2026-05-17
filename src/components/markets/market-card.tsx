@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react'
+
 import { Card } from '@/components/ui/card'
 import { ChangePill } from '@/components/markets/change-pill'
 import { Sparkline } from '@/components/markets/sparkline'
@@ -5,7 +7,7 @@ import { StatusBadge } from '@/components/markets/status-badge'
 import { formatAsOf, formatPrice } from '@/lib/market/format'
 import type { MarketPrice } from '@/server/services/market-data.service'
 
-export function MarketCard({ price }: { price: MarketPrice }) {
+export function MarketCard({ price, action }: { price: MarketPrice; action?: ReactNode }) {
   const unavailable = price.price === null
   const positive =
     price.change24hPct !== null
@@ -22,7 +24,10 @@ export function MarketCard({ price }: { price: MarketPrice }) {
           <h3 className="text-base font-bold text-ink">{price.name}</h3>
           <p className="font-mono text-[11px] text-ink-faint">{price.symbol}</p>
         </div>
-        <StatusBadge freshness={price.freshness} session={price.session} />
+        <div className="flex items-center gap-2">
+          {action}
+          <StatusBadge freshness={price.freshness} session={price.session} />
+        </div>
       </div>
 
       <div className="flex items-end justify-between gap-2">

@@ -1,11 +1,16 @@
+import type { ReactNode } from 'react'
+
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 
 import { MarketDisclaimer } from '@/components/markets/market-disclaimer'
 import { MarketSection } from '@/components/markets/market-section'
+import { WatchlistStarButton } from '@/components/watchlist/watchlist-star-button'
 import { features } from '@/config/features'
 import { formatAsOf } from '@/lib/market/format'
+import { getCurrentUser } from '@/server/auth'
 import { getAllMarketPrices } from '@/server/services/market-data.service'
+import { getWatchedSymbols } from '@/server/services/watchlist.service'
 
 export const metadata: Metadata = { title: 'Markets — Foothold' }
 
@@ -21,6 +26,18 @@ export default async function MarketsPage() {
 
   const newestAsOf = prices.reduce<string>((latest, p) => (p.asOf > latest ? p.asOf : latest), '')
 
+  // Additive: render a watchlist star per card when the feature is on.
+  let renderAction: ((symbol: string) => ReactNode) | undefined
+  if (features.watchlists) {
+    const user = await getCurrentUser()
+    if (user) {
+      const watched = new Set(await getWatchedSymbols(user.id))
+      renderAction = (symbol) => (
+        <WatchlistStarButton symbol={symbol} watched={watched.has(symbol)} />
+      )
+    }
+  }
+
   return (
     <div className="animate-fade-in space-y-8">
       <div>
@@ -31,9 +48,9 @@ export default async function MarketsPage() {
         </p>
       </div>
 
-      <MarketSection title="Crypto" emoji="🪙" prices={crypto} />
-      <MarketSection title="Stocks" emoji="📈" prices={stocks} />
-      <MarketSection title="Forex" emoji="💱" prices={forex} />
+      <MarketSection title="Crypto" emoji="🪙" prices={crypto} renderAction={renderAction} />
+      <MarketSection title="Stocks" emoji="📈" prices={stocks} renderAction={renderAction} />
+      <MarketSection title="Forex" emoji="💱" prices={forex} renderAction={renderAction} />
 
       {newestAsOf && (
         <p className="text-center font-mono text-[11px] text-ink-faint">
