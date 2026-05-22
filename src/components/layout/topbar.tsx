@@ -6,6 +6,11 @@ import { BrandMark } from './brand-mark'
 import { features } from '@/config/features'
 import { getInitials } from '@/lib/utils'
 
+/**
+ * Static nav — flag-gated only. Role-gated entries (currently just /admin)
+ * are appended inside the component once the session is resolved, because
+ * `session.user.role` isn't available at module load.
+ */
 const NAV_LINKS = [
   { href: '/learn', label: 'Learn' },
   { href: '/markets', label: 'Markets' },
@@ -20,6 +25,13 @@ const NAV_LINKS = [
 export async function Topbar({ activePath }: { activePath?: string }) {
   const session = await auth()
   const user = session?.user
+
+  // Nav-gating is convenience only — the /admin page itself re-checks both
+  // the flag and the role (JWT role can lag a DB demote until next refresh).
+  const navLinks = [
+    ...NAV_LINKS,
+    ...(features.adminCms && user?.role === 'admin' ? [{ href: '/admin', label: 'Admin' }] : []),
+  ]
 
   return (
     <header
@@ -43,7 +55,7 @@ export async function Topbar({ activePath }: { activePath?: string }) {
 
           {/* Desktop nav */}
           <nav className="hidden items-center gap-1 md:flex">
-            {NAV_LINKS.map((link) => (
+            {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}

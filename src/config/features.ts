@@ -29,8 +29,8 @@ export const features = {
   /** Step 7: Market news feed (on the watchlist page) */
   newsFeed: true,
 
-  /** Step 9: Admin CMS */
-  adminCms: false,
+  /** Step 8: Admin CMS — /admin dashboard, role toggle, audit log, flag inspector */
+  adminCms: true,
 
   /** Dark mode (CSS only — always enabled, user-toggled) */
   darkMode: true,

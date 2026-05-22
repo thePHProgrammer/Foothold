@@ -92,6 +92,11 @@ model User {
 
   // Relations (Watchlist)
   watchlist WatchlistItem[]
+
+  // Relations (Admin audit log) — split-relation; SetNull on both sides so
+  // audit history survives deletion of either the actor or the subject.
+  adminAuditLogsAuthored  AdminAuditLog[] @relation("AdminAuditLogAdmin")
+  adminAuditLogsAffecting AdminAuditLog[] @relation("AdminAuditLogTarget")
 }
 
 // ─── Learning ────────────────────────────────────────────────────────────────
@@ -237,6 +242,37 @@ model JournalEntry {
 
   @@index([userId])
   @@index([userId, createdAt])
+}
+
+// ─── Admin CMS ───────────────────────────────────────────────────────────────
+
+// Enum from day one — audit logs become foundational infra fast and string
+// actions drift across services. Add new values here when new admin actions
+// ship (FEATURE_FLAG_CHANGE, USER_BAN, CONTENT_EDIT, …).
+enum AdminAuditAction {
+  ROLE_CHANGE
+}
+
+// Event-history shape (no @@unique) — every successful admin mutation is one
+// row. Both relations to User are nullable + SetNull so the audit trail
+// survives deletion of either the admin or the target (tamper-resistant).
+// `metadata Json?` is reserved for structured diffs in future action types;
+// v1 ROLE_CHANGE only uses the simple oldValue/newValue string slots.
+model AdminAuditLog {
+  id           String           @id @default(cuid())
+  adminId      String?
+  targetUserId String?
+  action       AdminAuditAction
+  oldValue     String?
+  newValue     String?
+  metadata     Json?
+  createdAt    DateTime         @default(now())
+
+  admin  User? @relation("AdminAuditLogAdmin", fields: [adminId], references: [id], onDelete: SetNull)
+  target User? @relation("AdminAuditLogTarget", fields: [targetUserId], references: [id], onDelete: SetNull)
+
+  @@index([createdAt])
+  @@index([targetUserId, createdAt])
 }
 
 // ─── Watchlist ───────────────────────────────────────────────────────────────
